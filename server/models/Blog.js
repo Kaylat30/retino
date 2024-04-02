@@ -38,5 +38,5 @@ const BlogSchema = new mongoose.Schema(
     {timestamps: true}
 )
 
-const Blog = mongoose.model("Blog",UserSchema)
+const Blog = mongoose.model("Blog",BlogSchema)
 export default Blog

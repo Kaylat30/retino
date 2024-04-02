@@ -4,6 +4,13 @@ import cors from "cors"
 import path from "path"
 import dotenv from "dotenv";
 import { register,logout,login } from "./routes/auth.js"
+import {addBlogs,getBlogs,deleteBlog,updateBlog,getBlogInfo} from "./routes/blog.js"
+import { addCheckup, deleteCheckup, getCheckups, updateCheckup } from "./routes/checkup.js";
+import { addEyeScreening, deleteEyeScreening, getEyeScreenings, updateEyeScreening } from "./routes/eyescreening.js";
+import { addAppointment, deleteAppointment, getAppointments, updateAppointment } from "./routes/appointment.js";
+import { addMedication, getMedicationRecords, updateMedicationRecord, deleteMedicationRecord } from "./routes/medication.js";
+import { addNutrition,getNutritionRecords,updateNutritionRecord,deleteNutritionRecord } from "./routes/nutrition.js";
+
 import flash from "express-flash";
 import passport from "passport";
 import cookieParser from "cookie-parser";
@@ -13,7 +20,7 @@ import MongoDBStore from 'connect-mongodb-session';
 
 
 const url = 'exp://127.0.0.1:8081'
-//const url = 'https://heinreach.vercel.app'
+//const url = 'https://retino.vercel.app'
 // Configurations
 const  app = express()
 app.use(express.json())
@@ -61,19 +68,51 @@ app.use(passport.session())
 // MONGOOSE SETUP
 const PORT = process.env.PORT || 5000
 mongoose
-    .connect(process.env.MONGO_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    }).then(()=>{
+    .connect(process.env.MONGO_URL).then(()=>{
         app.listen(PORT, "localhost", ()=> console.log(`Server Port: ${PORT}`))
     }).catch((error)=> console.log(`${error} did not connect`))
     
 
 // ROUTES
-app.use("/login",login)
-app.use("/signup",register)
-app.use("/logout",logout)
+// Auth Routes
+app.use("/login", login);
+app.use("/signup", register);
+app.use("/logout", logout);
 
+// Blog Routes
+app.use("/addBlog", addBlogs);
+app.use("/getBlogs", getBlogs);
+app.use("/getBlog/:id", getBlogInfo);
+app.use("/deleteBlog", deleteBlog);
+app.use("/updateBlog", updateBlog);
 
+// Checkup Routes
+app.use("/addCheckup", addCheckup);
+app.use("/getCheckups", getCheckups);
+app.use("/deleteCheckup", deleteCheckup);
+app.use("/updateCheckup", updateCheckup);
 
+// Eye Screening Routes
+app.use("/addEyeScreening", addEyeScreening);
+app.use("/getEyeScreenings", getEyeScreenings);
+app.use("/deleteEyeScreening", deleteEyeScreening);
+app.use("/updateEyeScreening", updateEyeScreening);
+
+// Appointment Routes
+app.use("/addAppointment", addAppointment);
+app.use("/getAppointments", getAppointments);
+app.use("/deleteAppointment", deleteAppointment);
+app.use("/updateAppointment", updateAppointment);
+
+// Medication Routes
+app.use("/addMedication", addMedication);
+app.use("/getMedications", getMedicationRecords);
+app.use("/deleteMedication", deleteMedicationRecord);
+app.use("/updateMedication", updateMedicationRecord);
+
+// Nutrition Routes
+app.use("/addNutrition", addNutrition);
+app.use("/getNutritions", getNutritionRecords);
+app.use("/deleteNutrition", deleteNutritionRecord);
+app.use("/updateNutrition", updateNutritionRecord);
 

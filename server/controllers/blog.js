@@ -1,7 +1,7 @@
-import Blog from "../models/blog";
+import Blog from "../models/Blog.js";
 
 //add blogs
-export const addProducts = async (req,res) =>
+export const addBlogs = async (req,res) =>
 {
     try {
         const {
@@ -81,19 +81,24 @@ export const deleteBlog = async (req, res) => {
     }
   };
 
-  //Updating cart amount
-  export const updateCartAmount = async (req, res) => {
+  //Updating blog
+  export const updateBlog = async (req, res) => {
     try {
-      const { productId,newAmount } = req.body; 
+      const { blogItemId,image,title,author,content,date,tag } = req.body; 
 
-      // Find the product by its ID and update the amount field
-      const updatedProduct = await Cart.findByIdAndUpdate(
-        productId,
-        { amount: newAmount },
-        { new: true } // Return the updated product
+      // Find the blog by its ID and update the image,title,author,content,date,tag fields
+      const updatedBlog = await Cart.findByIdAndUpdate(
+        blogItemId,
+        { image:image,
+          title:title,
+          author:author,
+          content:content,
+          date:date,
+          tag:tag },
+        { new: true } // Return the updated blog
       );
   
-      if (!updatedProduct) {
+      if (!updatedBlog) {
         return res.status(404).json({
           success: false,
           message: 'Product not found',
@@ -102,7 +107,7 @@ export const deleteBlog = async (req, res) => {
   
       return res.status(200).json({
         success: true,
-        product: updatedProduct,
+        blog: updatedBlog,
       });
     } catch (error) {
       res.status(500).json({
