@@ -13,4 +13,4 @@ const medicationSchema = new mongoose.Schema({
 
 const Medication = mongoose.model('Medication', medicationSchema);
 
-module.exports = Medication;
+export default Medication;

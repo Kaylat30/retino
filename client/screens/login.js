@@ -1,28 +1,44 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
+import { LoginUser } from '../api';
 
 const Login = () => {
-  const [username, setUsername] = useState('');
+  const [email, setemail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
-  const handleLogin = () => {
-    // Implement your login logic here
-    //console.log('Username:', username);
-    //console.log('Password:', password);
-    
-    navigation.navigate('Layout');
+  const handleLogin = async () => {
+    try {
+      const user = await LoginUser(email, password);
+      if (user) {
+        Toast.show({
+          type: 'success',
+          text1: 'Login Successful',
+        });
+        navigation.navigate('Layout') ;
+        }      
+      
+    } catch (error) {
+      // Handle signup error
+      Toast.show({
+        type: 'error',
+        text1: 'Login Failed',
+        text2: error.message,
+      });
+    }
   };
+
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.input}
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
+        placeholder="email"
+        value={email}
+        onChangeText={setemail}
       />
       <TextInput
         style={styles.input}

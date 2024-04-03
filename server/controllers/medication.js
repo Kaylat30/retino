@@ -1,4 +1,4 @@
-import Medication from '../models/Medication';
+import Medication from '../models/Medication.js';
 
 
 // Add new medication record

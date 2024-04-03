@@ -21,4 +21,4 @@ const checkupSchema = new mongoose.Schema({
 
 const Checkup = mongoose.model('Checkup', checkupSchema);
 
-module.exports = Checkup;
+export default  Checkup;

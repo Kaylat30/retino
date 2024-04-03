@@ -1,14 +1,37 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
+import { registerUser } from '../api';
 
 const Signup = () => {
-  const [username, setUsername] = useState('');
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [email, setemail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
-  const handleSignup = () => {
-    navigation.navigate('Login');
+  const handleSignup = async () => {
+    try {
+      const user = await registerUser(firstname, lastname, email, password);
+      if (user) {
+        Toast.show({
+          type: 'success',
+          text1: 'Signup Successful',
+        });
+
+        navigation.navigate('Login') ;
+        }
+        
+      
+    } catch (error) {
+      // Handle signup error
+      Toast.show({
+        type: 'error',
+        text1: 'Signup Failed',
+        text2: error.message,
+      });
+    }
   };
 
   return (
@@ -16,9 +39,21 @@ const Signup = () => {
       <Text style={styles.title}>Signup</Text>
       <TextInput
         style={styles.input}
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
+        placeholder="Firstname"
+        value={firstname}
+        onChangeText={setFirstname}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Lastname"
+        value={lastname}
+        onChangeText={setLastname}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        value={email}
+        onChangeText={setemail}
       />
       <TextInput
         style={styles.input}

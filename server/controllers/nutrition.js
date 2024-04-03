@@ -1,4 +1,4 @@
-import Nutrition from '../models/Nutrition'
+import Nutrition from '../models/Nutrition.js'
 
 // Add new nutrition record
 export const addNutrition = async (req, res) => {

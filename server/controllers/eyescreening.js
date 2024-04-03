@@ -1,4 +1,4 @@
-import EyeScreening from '../models/EyeScreening'
+import EyeScreening from '../models/EyeScreening.js'
 
 // Add new eye screening
 export const addEyeScreening = async (req, res) => {

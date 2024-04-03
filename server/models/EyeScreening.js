@@ -25,4 +25,4 @@ const eyeScreeningSchema = new mongoose.Schema({
 
 const EyeScreening = mongoose.model('EyeScreening', eyeScreeningSchema);
 
-module.exports = EyeScreening;
+export default EyeScreening;

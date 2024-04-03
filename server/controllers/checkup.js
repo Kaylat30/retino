@@ -1,4 +1,4 @@
-import Checkup from '../models/Checkup'
+import Checkup from '../models/Checkup.js'
 
 // Add new checkup
 export const addCheckup = async (req, res) => {

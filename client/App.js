@@ -12,6 +12,7 @@
   import Notification from './screens/notification';
 import NotificationInfo from './screens/notificationInfo';
 import { NotificationProvider } from './screens/notificationProvider';
+import Toast from 'react-native-toast-message';
 
 
   const Stack = createStackNavigator();
@@ -21,7 +22,7 @@ import { NotificationProvider } from './screens/notificationProvider';
       <NotificationProvider>
         <NavigationContainer>      
           <Stack.Navigator 
-          initialRouteName="Layout"
+          initialRouteName="Login"
           screenOptions={{
             header: () => <TopTabNavigator  />,
             
@@ -61,6 +62,7 @@ import { NotificationProvider } from './screens/notificationProvider';
         />
         
         </Stack.Navigator>
+        <Toast />
       </NavigationContainer>
       </NotificationProvider>
     );
