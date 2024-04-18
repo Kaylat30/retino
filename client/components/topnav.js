@@ -1,13 +1,18 @@
 import React, { useState, useRef,useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, Button, Animated, TouchableWithoutFeedback } from 'react-native';
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation ,useRoute} from '@react-navigation/native';
 import { useNotification } from '../screens/notificationProvider';
+import { logoutUser } from '../api';
+import Toast from 'react-native-toast-message';
 
 export const TopTabNavigator = () => {
   const navigation = useNavigation();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(-200)).current;
+  //const [firstName, setFirstName] = useState('');
+  const route = useRoute()
+  //const { firstName } = route.params;
 
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
@@ -75,6 +80,27 @@ export const TopTabNavigator = () => {
     </TouchableOpacity>
   );
 
+  const handleSignOut = async () => {
+    try {
+      const user = await logoutUser();
+      if (user) {
+        Toast.show({
+          type: 'success',
+          text1: 'Login Successful',
+        });
+        navigation.navigate('Login') ;
+        }      
+      
+    } catch (error) {
+      // Handle signup error
+      Toast.show({
+        type: 'error',
+        text1: 'Logout Failed',
+        text2: error.message,
+      });
+    }
+  };
+
   return (
     <>
     <TouchableWithoutFeedback onPress={closePanel}>
@@ -90,8 +116,9 @@ export const TopTabNavigator = () => {
         <Animated.View style={[styles.modalBackground, { transform: [{ translateY: slideAnim }]}]}>
           <TouchableWithoutFeedback>
             <View style={styles.modalContent}>
+              {/* <Text>Hello {firstName}</Text> */}
               <Text>Hello tif</Text>
-              <Button title="Sign Out" onPress={toggleModal} />
+              <Button title="Sign Out" onPress={handleSignOut} />
             </View>
           </TouchableWithoutFeedback>
         </Animated.View>
@@ -136,7 +163,7 @@ const styles = StyleSheet.create({
   modalBackground: {
     position: 'absolute',
     bottom: -100,
-    top:120,
+    top:110,
     left: 70,
     right: 10,
     //backgroundColor: 'rgba(0, 0, 0, 0.5)',

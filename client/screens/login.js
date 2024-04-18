@@ -17,7 +17,7 @@ const Login = () => {
           type: 'success',
           text1: 'Login Successful',
         });
-        navigation.navigate('Layout') ;
+        navigation.navigate('Layout', { firstName: user.firstName }) ;
         }      
       
     } catch (error) {

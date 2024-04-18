@@ -54,7 +54,7 @@ export const login = (req, res, next) => {
       //   sameSite: 'none'  
       // }); 
          
-        res.status(200).json({success : true , message: "logged in successfully" });
+        res.status(200).json({success : true , message: "logged in successfully" , firstName: user.firstname });
       });
     
     })(req, res, next); 

@@ -1,17 +1,26 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { View, Text,TouchableOpacity,TextInput, ScrollView } from 'react-native';
 import Ionicons from "@expo/vector-icons/Ionicons";
-import React ,{useState}from 'react';
+import React ,{useState,useEffect}from 'react';
+import { addAppointment, getAllAppointments, getAllCheckups, getAllEyeScreenings } from '../api';
+import Toast from 'react-native-toast-message';
 
 function EyeScreening() {
-  const tableData = [
-    { date: '22.4.2023', risk: '1.2%', results: ['Result 1', 'Result 2', 'Result 3'] },
-    { date: '23.4.2023', risk: '1.5%', results: ['Result 4', 'Result 5', 'Result 6'] },
-    { date: '24.4.2023', risk: '1.8%', results: ['Result 7', 'Result 8', 'Result 9'] },
-    { date: '25.4.2023', risk: '2.0%', results: ['Result 10', 'Result 11', 'Result 12'] },
-  ];
-
+  const [tableData, setTableData] = useState([]);
   const [expandedIndex, setExpandedIndex] = useState(-1);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getAllEyeScreenings();
+        setTableData(data);
+      } catch (error) {
+        console.error('Error fetching eye screenings:', error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const toggleContent = (index) => {
     if (expandedIndex === index) {
@@ -66,14 +75,21 @@ function EyeScreening() {
 }
 
 function Checkups() {
-  const tableData = [
-    { date: '22.4.2023', risk: '1.2%', results: ['Result 1', 'Result 2', 'Result 3'] },
-    { date: '23.4.2023', risk: '1.5%', results: ['Result 4', 'Result 5', 'Result 6'] },
-    { date: '24.4.2023', risk: '1.8%', results: ['Result 7', 'Result 8', 'Result 9'] },
-    { date: '25.4.2023', risk: '2.0%', results: ['Result 10', 'Result 11', 'Result 12'] },
-  ];
-
+  const [tableData, setTableData] = useState([]);
   const [expandedIndex, setExpandedIndex] = useState(-1);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getAllCheckups();
+        setTableData(data);
+      } catch (error) {
+        console.error('Error fetching diabetic checkups:', error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const toggleContent = (index) => {
     if (expandedIndex === index) {
@@ -126,12 +142,20 @@ function Checkups() {
 }
 
 function Appointment() {
-  const tableData = [
-    { date: '22.4.2023', clinic: 'Case Clinic', results: ['Result 1', 'Result 2', 'Result 3'] },
-    { date: '23.4.2023', clinic: 'MRM Clinic', results: ['Result 4', 'Result 5', 'Result 6'] },
-    { date: '24.4.2023', clinic: 'D&G Clinic', results: ['Result 7', 'Result 8', 'Result 9'] },
-    { date: '25.4.2023', clinic: 'Mbarara Hospital', results: ['Result 10', 'Result 11', 'Result 12'] },
-  ];
+  const [tableData, setTableData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getAllAppointments();
+        setTableData(data);
+      } catch (error) {
+        console.error('Error fetching appointments:', error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const [isFormVisible, setIsFormVisible] = useState(false);
 
@@ -139,26 +163,36 @@ function Appointment() {
     setIsFormVisible(!isFormVisible);
   };
 
-  const [name, setName] = useState('');
+  const [date, setDate] = useState('');
+  const [clinic, setClinic] = useState('');
   const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [number, setNumber] = useState('');
+  const [description, setDescription] = useState('');
+  const [message, setMessage] = useState('');
+  const [name, setName] = useState('');
+  const [results, setResults] = useState('');
 
-  const handleNameChange = (text) => {
-    setName(text);
+  const handleSubmit = async () => {
+    try {
+      
+      const response = await addAppointment(date, clinic, email, number, description, message, name, results);
+  
+      // Check if the API call was successful
+      if (response) {
+        Toast.show({
+          type: 'success',
+          text1: 'Appointment sent Successfully',
+        });
+      }
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: 'Error adding appointment',
+        text2: error.message,
+      });
+    }
   };
-
-  const handleEmailChange = (text) => {
-    setEmail(text);
-  };
-
-  const handlePhoneNumberChange = (text) => {
-    setPhoneNumber(text);
-  };
-
-  const handleSubmit = () => {
-    // Handle form submission logic here
-    console.log('Form submitted:', { name, email, phoneNumber });
-  };
+  
 
   const [expandedIndex, setExpandedIndex] = useState(-1);
 
@@ -220,31 +254,65 @@ function Appointment() {
         </View>
         
         {isFormVisible && (
-          <View style={{ marginTop: 10, backgroundColor: 'white', borderRadius: 10, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}>
-            <TextInput
-              placeholder="Name"
-              value={name}
-              onChangeText={handleNameChange}
-              style={{ borderWidth: 1, borderColor: 'lightgrey', borderRadius: 5, padding: 10, marginBottom: 10 }}
-            />
-            <TextInput
-              placeholder="Email"
-              value={email}
-              onChangeText={handleEmailChange}
-              style={{ borderWidth: 1, borderColor: 'lightgrey', borderRadius: 5, padding: 10, marginBottom: 10 }}
-            />
-            <TextInput
-              placeholder="Phone Number"
-              value={phoneNumber}
-              onChangeText={handlePhoneNumberChange}
-              style={{ borderWidth: 1, borderColor: 'lightgrey', borderRadius: 5, padding: 10, marginBottom: 10 }}
-              keyboardType="phone-pad"
-            />
-            <TouchableOpacity onPress={handleSubmit} style={{ backgroundColor: 'blue', borderRadius: 5, padding: 10, alignItems: 'center' }}>
-              <Text style={{ color: 'white' }}>Submit</Text>
-            </TouchableOpacity>
-          </View>
-        )}
+        <View style={{ marginTop: 10, backgroundColor: 'white', borderRadius: 10, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}>
+          <TextInput
+            placeholder="Date"
+            value={date}
+            onChangeText={setDate}
+            style={{ borderWidth: 1, borderColor: 'lightgrey', borderRadius: 5, padding: 10, marginBottom: 10 }}
+          />
+          <TextInput
+            placeholder="Clinic"
+            value={clinic}
+            onChangeText={setClinic}
+            style={{ borderWidth: 1, borderColor: 'lightgrey', borderRadius: 5, padding: 10, marginBottom: 10 }}
+          />
+          <TextInput
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            style={{ borderWidth: 1, borderColor: 'lightgrey', borderRadius: 5, padding: 10, marginBottom: 10 }}
+          />
+          <TextInput
+            placeholder="Number"
+            value={number}
+            onChangeText={setNumber}
+            style={{ borderWidth: 1, borderColor: 'lightgrey', borderRadius: 5, padding: 10, marginBottom: 10 }}
+            keyboardType="phone-pad"
+          />
+          <TextInput
+            placeholder="Description"
+            value={description}
+            onChangeText={setDescription}
+            style={{ borderWidth: 1, borderColor: 'lightgrey', borderRadius: 5, padding: 10, marginBottom: 10 }}
+            multiline
+          />
+          <TextInput
+            placeholder="Message"
+            value={message}
+            onChangeText={setMessage}
+            style={{ borderWidth: 1, borderColor: 'lightgrey', borderRadius: 5, padding: 10, marginBottom: 10 }}
+            multiline
+          />
+          <TextInput
+            placeholder="Name"
+            value={name}
+            onChangeText={setName}
+            style={{ borderWidth: 1, borderColor: 'lightgrey', borderRadius: 5, padding: 10, marginBottom: 10 }}
+          />
+          <TextInput
+            placeholder="Results"
+            value={results}
+            onChangeText={setResults}
+            style={{ borderWidth: 1, borderColor: 'lightgrey', borderRadius: 5, padding: 10, marginBottom: 10 }}
+            multiline
+          />
+          <TouchableOpacity onPress={handleSubmit} style={{ backgroundColor: 'blue', borderRadius: 5, padding: 10, alignItems: 'center' }}>
+            <Text style={{ color: 'white' }}>Submit</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
       </View>
 
     </ScrollView>
