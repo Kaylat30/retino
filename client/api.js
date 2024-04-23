@@ -302,7 +302,7 @@ export const deleteNutritionRecord = async (nutritionId) => {
 
 
 // Function to add a new appointment
-export const addAppointment = async (date,clinic,email,number,description,message,name,results) => {
+export const addAppointment = async (clinic,email,number,description,message,name) => {
   try {
     const response = await fetch(`${url}/addAppointment`, {
       method: 'POST',
@@ -310,7 +310,7 @@ export const addAppointment = async (date,clinic,email,number,description,messag
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({date: date,clinic: clinic,email: email,number: number,description:description,message: message,name: name,results: results}),
+      body: JSON.stringify({clinic: clinic,email: email,number: number,description:description,message: message,name: name}),
     });
 
     if (!response.ok) {
@@ -344,7 +344,7 @@ export const getAllAppointments = async () => {
 };
 
 // Function to update an appointment
-export const updateAppointment = async (id,date,clinic,email,number,description,message,name,results) => {
+export const updateAppointment = async (id,clinic,email,number,description,message,name) => {
   try {
     const response = await fetch(`${url}/updateAppointment`, {
       method: 'PATCH',
@@ -352,7 +352,7 @@ export const updateAppointment = async (id,date,clinic,email,number,description,
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({id:id,date: date,clinic: clinic,email: email,number: number,description:description,message: message,name: name,results: results}),
+      body: JSON.stringify({id:id,clinic: clinic,email: email,number: number,description:description,message: message,name: name}),
     });
 
     if (!response.ok) {
@@ -571,7 +571,7 @@ export const deleteEyeScreening = async (eyeScreeningId) => {
 
 
 // Function to add a new medication record
-export const addMedication = async (cat,risk,visual,intraocular,serum,glucose,hemoglobin,urinalysis,result,date,clinic) => {
+export const addMedication = async (date,clinic,result) => {
   try {
     const response = await fetch(`${url}/addMedication`, {
       method: 'POST',
@@ -579,7 +579,7 @@ export const addMedication = async (cat,risk,visual,intraocular,serum,glucose,he
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({risk:risk,visual:visual,intraocular:intraocular,serum:serum,glucose:glucose,hemoglobin:hemoglobin,urinalysis:urinalysis,result:result,cat:cat,date:date,clinic:clinic}),
+      body: JSON.stringify({result:result,date:date,clinic:clinic}),
     });
 
     if (!response.ok) {
@@ -613,14 +613,14 @@ export const getAllMedicationRecords = async () => {
 };
 
 // Function to update a medication record
-export const updateMedicationRecord = async (risk,visual,intraocular,serum,glucose,hemoglobin,urinalysis,result,id) => {
+export const updateMedicationRecord = async (date,clinic,result,id) => {
   try {
     const response = await fetch(`${url}/updateMedicationRecord`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({risk:risk,visual:visual,intraocular:intraocular,serum:serum,glucose:glucose,hemoglobin:hemoglobin,urinalysis:urinalysis,result:result,id:id}),
+      body: JSON.stringify({date:date,clinic:clinic,result:result,id:id}),
     });
 
     if (!response.ok) {

@@ -8,27 +8,12 @@ const medicationSchema = new mongoose.Schema({
     result: {
         type: Number,
     },
-    risk: {
-        type: Number,
+    clinic: {
+        type: String,
     },
-    visual: {
-        type: Number,
-    },
-    intraocular: {
-        type: Number,
-    },
-    serum: {
-        type: Number,
-    },
-    glucose: {
-        type: Number,
-    },
-    hemoglobin: {
-        type: Number,
-    },
-    urinalysis: {
-        type: Number,
-    },
+    date: {
+        type: Date,
+    }
     
 });
 

@@ -4,7 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import { RadioButton} from 'react-native-paper';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { FontAwesome } from '@expo/vector-icons';
-import { addNutritionRecord,getAllNutritionRecords ,deleteNutritionRecord,addMedication} from '../api';
+import { addNutritionRecord,getAllNutritionRecords ,deleteNutritionRecord,addMedication, addCheckup, addAppointment, addEyeScreening} from '../api';
 import Toast from 'react-native-toast-message';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -190,13 +190,36 @@ export default function Add() {
   
     const handleSave = async () => {
       try {
-        const success = await addMedication(cat, risk, visual, intraocular, serum, glucose, hemoglobin, urinalysis, result, date, clinic);
-        if (success) {
-          Toast.show({
-            type: 'success',
-            text1: 'Details added successfully',
-          });
-          }
+        //const success = await addMedication(cat, risk, visual, intraocular, serum, glucose, hemoglobin, urinalysis, result, date, clinic);
+        if(cat=="appointment")
+        {
+          const response = await addMedication(date,clinic,result)
+          if (response) {
+            Toast.show({
+              type: 'success',
+              text1: 'Appointment details added successfully',
+            });
+            }
+        }else if(cat=="checkup")
+        {
+          const response = await addCheckup(date,clinic,glucose,hemoglobin,urinalysis)
+          if (response) {
+            Toast.show({
+              type: 'success',
+              text1: 'Checkup details added successfully',
+            });
+            }
+        } else if(cat=="eyescreening")
+        {
+          const response = await addEyeScreening(date,clinic,visual,intraocular,serum,risk)
+          if (response) {
+            Toast.show({
+              type: 'success',
+              text1: 'Eyescreening details added successfully',
+            });
+            }
+        }
+        
       } catch (error) {
         console.error('Error adding medication record:', error.message);
         Toast.show({
@@ -317,7 +340,7 @@ export default function Add() {
   
     return (
       <View style={{ padding: 20 }}>
-        <Text>Select Category:</Text>
+        <Text>Select Category to add details:</Text>
         <Picker
           selectedValue={cat}
           style={{ height: 50, width: 150, marginBottom: 10 }}

@@ -16,7 +16,6 @@ export const addNutrition = async (req, res) => {
     try {
         const { foods } = req.body;
         
-        // Iterate through each food object in the array and save it to the database
         const savedNutritionRecords = await Promise.all(foods.map(async (foodItem) => {
             const { food, date } = foodItem;
             const nutrition = new Nutrition({ food, date, user: req.user._id });
