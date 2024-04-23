@@ -13,14 +13,22 @@ const eyeScreeningSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    results: {
-        type: String,
+    risk: {
+        type: Number,
         required: true
     },
-    risk: {
-        type: String,
+    visual: {
+        type: Number,
         required: true
-    }
+    },
+    intraocular: {
+        type: Number,
+        required: true
+    },
+    serum: {
+        type: Number,
+        required: true
+    },
 });
 
 const EyeScreening = mongoose.model('EyeScreening', eyeScreeningSchema);

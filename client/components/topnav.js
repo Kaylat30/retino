@@ -10,9 +10,8 @@ export const TopTabNavigator = () => {
   const navigation = useNavigation();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(-200)).current;
-  //const [firstName, setFirstName] = useState('');
   const route = useRoute()
-  //const { firstName } = route.params;
+  const { firstName } = route.params;
 
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
@@ -86,7 +85,7 @@ export const TopTabNavigator = () => {
       if (user) {
         Toast.show({
           type: 'success',
-          text1: 'Login Successful',
+          text1: 'Logout Successful',
         });
         navigation.navigate('Login') ;
         }      
@@ -116,9 +115,10 @@ export const TopTabNavigator = () => {
         <Animated.View style={[styles.modalBackground, { transform: [{ translateY: slideAnim }]}]}>
           <TouchableWithoutFeedback>
             <View style={styles.modalContent}>
-              {/* <Text>Hello {firstName}</Text> */}
-              <Text>Hello tif</Text>
-              <Button title="Sign Out" onPress={handleSignOut} />
+              <Text>Hello {firstName}</Text>
+              <TouchableOpacity style={styles.button} onPress={handleSignOut}>
+                  <Text style={styles.buttonText}>Sign Out</Text>
+              </TouchableOpacity>
             </View>
           </TouchableWithoutFeedback>
         </Animated.View>
@@ -187,6 +187,19 @@ const styles = StyleSheet.create({
   notificationCount: {
     color: 'white',
     fontSize: 12,
+    fontWeight: 'bold',
+  },
+  button: {
+    width: '80%',
+    height: 50,
+    backgroundColor: 'blue',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
     fontWeight: 'bold',
   },
 });

@@ -1,5 +1,4 @@
-const url = "http://localhost:3000"
-//const url = "https://heinreach-server.vercel.app"
+const url = "https://retino-server.vercel.app"
 
 export async function LoginUser(email,password)
 {
@@ -19,6 +18,7 @@ export async function LoginUser(email,password)
     });
 
     const data = await res.json();
+    console.log(data);
 
     if (!res.ok) {
         throw {
@@ -56,7 +56,7 @@ export async function registerUser(firstname,lastname,email,password)
         });
 
         const data = await res.json();
-
+        console.log(data)
         if (!res.ok) {
             throw {
                 message: data.error,
@@ -66,9 +66,10 @@ export async function registerUser(firstname,lastname,email,password)
         }
 
         return data;
+        
   
       } catch (error) {
-        console.error("Login error: " + error.message);
+        console.error("Signup error: " + error.message);
         
       }
 }
@@ -79,6 +80,9 @@ export async function logoutUser() {
         method: 'POST',
         credentials: 'include' 
       });
+      if(res.ok){
+        console.log('logged out');
+      }
   
       if (!res.ok) {
         throw new Error(`Logout failed with status ${res.status}`);
@@ -208,7 +212,7 @@ export const addBlog = async (image,title,author,content,date,tag) => {
 
 
 // Function to add a new nutrition record
-export const addNutritionRecord = async (food,calories,date) => {
+export const addNutritionRecord = async (food,date) => {
   try {
     const response = await fetch(`${url}/addNutrition`, {
       method: 'POST',
@@ -216,7 +220,7 @@ export const addNutritionRecord = async (food,calories,date) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({food:food,calories:calories,date:date}),
+      body: JSON.stringify({food:food,date:date}),
     });
 
     if (!response.ok) {
@@ -389,7 +393,7 @@ export const deleteAppointment = async (appointmentId) => {
 
 
 // Function to add a new checkup
-export const addCheckup = async (date,clinic,results) => {
+export const addCheckup = async (date,clinic,glucose,hemoglobin,urinalysis) => {
   try {
     const response = await fetch(`${url}/addCheckup`, {
       method: 'POST',
@@ -397,7 +401,7 @@ export const addCheckup = async (date,clinic,results) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({date:date,clinic:clinic,results:results}),
+      body: JSON.stringify({date:date,clinic:clinic,glucose:glucose,hemoglobin:hemoglobin,urinalysis:urinalysis}),
     });
 
     if (!response.ok) {
@@ -431,14 +435,14 @@ export const getAllCheckups = async () => {
 };
 
 // Function to update a checkup
-export const updateCheckup = async (date,clinic,results,id) => {
+export const updateCheckup = async (date,clinic,id,glucose,hemoglobin,urinalysis) => {
   try {
     const response = await fetch(`${url}/updateCheckup`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({date:date,clinic:clinic,results:results,checkupId:id}),
+      body: JSON.stringify({date:date,clinic:clinic,checkupId:id,glucose:glucose,hemoglobin:hemoglobin,urinalysis:urinalysis}),
     });
 
     if (!response.ok) {
@@ -478,7 +482,7 @@ export const deleteCheckup = async (id) => {
 
 
 // Function to add a new eye screening
-export const addEyeScreening = async (date,clinic,results,risk) => {
+export const addEyeScreening = async (date,clinic,visual,intraocular,serum,risk) => {
   try {
     const response = await fetch(`${url}/addEyeScreening`, {
       method: 'POST',
@@ -486,7 +490,7 @@ export const addEyeScreening = async (date,clinic,results,risk) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({date:date,clinic:clinic,results:results,risk:risk}),
+      body: JSON.stringify({date:date,clinic:clinic,visual:visual,intraocular:intraocular,serum:serum,risk:risk}),
     });
 
     if (!response.ok) {
@@ -520,14 +524,14 @@ export const getAllEyeScreenings = async () => {
 };
 
 // Function to update an eye screening
-export const updateEyeScreening = async (id,date,clinic,results,risk) => {
+export const updateEyeScreening = async (id,date,clinic,risk,visual,intraocular,serum) => {
   try {
     const response = await fetch(`${url}/updateEyeScreening`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({EyeScreeningId:id,date:date,clinic:clinic,results:results,risk:risk}),
+      body: JSON.stringify({EyeScreeningId:id,date:date,clinic:clinic,visual:visual,intraocular:intraocular,serum:serum,risk:risk}),
     });
 
     if (!response.ok) {
@@ -567,7 +571,7 @@ export const deleteEyeScreening = async (eyeScreeningId) => {
 
 
 // Function to add a new medication record
-export const addMedication = async (result) => {
+export const addMedication = async (cat,risk,visual,intraocular,serum,glucose,hemoglobin,urinalysis,result,date,clinic) => {
   try {
     const response = await fetch(`${url}/addMedication`, {
       method: 'POST',
@@ -575,7 +579,7 @@ export const addMedication = async (result) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({result: result}),
+      body: JSON.stringify({risk:risk,visual:visual,intraocular:intraocular,serum:serum,glucose:glucose,hemoglobin:hemoglobin,urinalysis:urinalysis,result:result,cat:cat,date:date,clinic:clinic}),
     });
 
     if (!response.ok) {
@@ -609,14 +613,14 @@ export const getAllMedicationRecords = async () => {
 };
 
 // Function to update a medication record
-export const updateMedicationRecord = async (result,id) => {
+export const updateMedicationRecord = async (risk,visual,intraocular,serum,glucose,hemoglobin,urinalysis,result,id) => {
   try {
     const response = await fetch(`${url}/updateMedicationRecord`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({result:result,id:id}),
+      body: JSON.stringify({risk:risk,visual:visual,intraocular:intraocular,serum:serum,glucose:glucose,hemoglobin:hemoglobin,urinalysis:urinalysis,result:result,id:id}),
     });
 
     if (!response.ok) {

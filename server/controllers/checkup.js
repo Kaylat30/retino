@@ -3,8 +3,8 @@ import Checkup from '../models/Checkup.js'
 // Add new checkup
 export const addCheckup = async (req, res) => {
     try {
-        const {date,clinic,results} = req.body
-        const checkup = new Checkup({date,clinic,results,user:req.user._id});
+        const {date,clinic,glucose,hemoglobin,urinalysis} = req.body
+        const checkup = new Checkup({date,clinic,user:req.user._id,glucose,hemoglobin,urinalysis});
         const savedCheckup = await checkup.save();
         res.status(201).json({ message: 'Checkup added successfully' ,Checkup: savedCheckup});
     } catch (error) {
@@ -25,9 +25,9 @@ export const getCheckups = async (req, res) => {
 // Update checkup
 export const updateCheckup = async (req, res) => {
     try {
-        const {date,clinic,results,checkupId} = req.body
+        const {date,clinic,checkupId,glucose,hemoglobin,urinalysis} = req.body
         const updatedCheckup = await Checkup.findByIdAndUpdate(checkupId, 
-            {date: date, clinic: clinic, results: results},
+            {date: date, clinic: clinic,glucose:glucose,hemoglobin:hemoglobin,urinalysis:urinalysis},
             {new: true});
         res.status(200).json({ message: 'Checkup updated successfully',Checkup: updatedCheckup});
     } catch (error) {

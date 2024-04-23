@@ -19,13 +19,12 @@ import session from 'express-session';
 import MongoDBStore from 'connect-mongodb-session';
 
 
-const url = 'exp://127.0.0.1:8081'
 //const url = 'https://retino.vercel.app'
 // Configurations
 const  app = express()
 app.use(express.json())
 app.use(cors({
-    origin: url,
+    // origin: url,
     methods: ['GET','POST','PATCH','DELETE','PUT'],
     allowedHeaders: ['Content-Type'],
     credentials: true,
@@ -55,7 +54,7 @@ app.use(session({
     cookie:{
         maxAge: 600000, 
         //httpOnly: true,
-        // secure:true,   
+        secure:true,   
         // sameSite: 'none'  
     }
 }))

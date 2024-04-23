@@ -9,10 +9,9 @@ const nutritionSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    calories: {
-        type: Number,
-        required: true
-    },
+    // calories: {
+    //     type: Number,
+    // },
     date: {
         type: Date,
         default: Date.now

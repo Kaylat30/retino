@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   image: {
-    width: '100%', // Adjust the width of the image as needed
+    width: '70%', // Adjust the width of the image as needed
     resizeMode: 'contain',
   },
   text: {

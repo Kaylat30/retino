@@ -22,7 +22,7 @@ import Toast from 'react-native-toast-message';
       <NotificationProvider>
         <NavigationContainer>      
           <Stack.Navigator 
-          initialRouteName="Layout"
+          initialRouteName="Login"
           screenOptions={{
             header: () => <TopTabNavigator  />,
             

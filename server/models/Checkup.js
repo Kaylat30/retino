@@ -13,10 +13,18 @@ const checkupSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    results: {
-        type: String,
+    glucose: {
+        type: Number,
         required: true
-    }
+    },
+    hemoglobin: {
+        type: Number,
+        required: true
+    },
+    urinalysis: {
+        type: Number,
+        required: true
+    },
 });
 
 const Checkup = mongoose.model('Checkup', checkupSchema);
