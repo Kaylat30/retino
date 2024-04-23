@@ -212,15 +212,36 @@ export const addBlog = async (image,title,author,content,date,tag) => {
 
 
 // Function to add a new nutrition record
-export const addNutritionRecord = async (food,date) => {
+// export const addNutritionRecord = async (food,date) => {
+//   try {
+//     const response = await fetch(`${url}/addNutrition`, {
+//       method: 'POST',
+//       credentials:"include",
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({food:food,date:date}),
+//     });
+
+//     if (!response.ok) {
+//       throw new Error('Failed to add nutrition record');
+//     }
+
+//     return await response.json();
+//   } catch (error) {
+//     console.error('Error adding nutrition record:', error.message);
+//     throw error;
+//   }
+// };
+export const addNutritionRecord = async (foods) => {
   try {
     const response = await fetch(`${url}/addNutrition`, {
       method: 'POST',
-      credentials:"include",
+      credentials: "include",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({food:food,date:date}),
+      body: JSON.stringify({ foods: foods }),
     });
 
     if (!response.ok) {
@@ -233,6 +254,7 @@ export const addNutritionRecord = async (food,date) => {
     throw error;
   }
 };
+
 
 // Function to get all nutrition records
 export const getAllNutritionRecords = async () => {

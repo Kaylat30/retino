@@ -258,7 +258,7 @@ export default function Add() {
         case 'eyescreening':
           return (
             <>
-            <ScrollView style={{ marginBottom: 70 }}>
+            <ScrollView style={{ marginBottom: 30 }}>
               <Text>Date:</Text>
               <TextInput
                 style={{ height: 40, borderColor: 'gray', borderWidth: 1, marginBottom: 10 }}
@@ -295,7 +295,7 @@ export default function Add() {
                 onChangeText={text => setSerum(text)}
                 value={serum}
               />
-              </ScrollView>
+            </ScrollView>
             </>
           );
         case 'checkup':
@@ -369,22 +369,21 @@ export default function Add() {
   }
 
   const DiabeticFoodForm = () => {
-    const [unsavedFoods, setUnsavedFoods] = useState(['']); 
+    const [unsavedFoods, setUnsavedFoods] = useState([]); 
     const [savedFoods, setSavedFoods] = useState([]);
   
-    useEffect(() => {
-      // Fetch all nutrition records when the component mounts
-      const fetchFoods = async () => {
-        try {
-          const response = await getAllNutritionRecords();
-          // Sort foods based on dates from current to previous
-          const sortedFoods = response.sort((a, b) => new Date(b.date) - new Date(a.date));
-          setSavedFoods(sortedFoods);
-        } catch (error) {
-          console.error('Error fetching nutrition records:', error.message);
-        }
-      };
-  
+    // Fetch all nutrition records when the component mounts
+    const fetchFoods = async () => {
+      try {
+        const response = await getAllNutritionRecords();
+        // Sort foods based on dates from current to previous
+        const sortedFoods = response.sort((a, b) => new Date(b.date) - new Date(a.date));
+        setSavedFoods(sortedFoods);
+      } catch (error) {
+        console.error('Error fetching nutrition records:', error.message);
+      }
+    };
+    useEffect(() => {     
       fetchFoods();
     }, []);
   
@@ -436,19 +435,17 @@ export default function Add() {
       try {
         // Get the current date
         const currentDate = new Date().toISOString();
-        
-        // Iterate through each food item and make the API request
-        const success = await Promise.all(unsavedFoods.map(async (food) => {
-          const response = await addNutritionRecord(food, currentDate);
-          console.log('Response:', response);
-        }));
 
-        if (success) {
+        const foodsWithDate = await Promise.all(unsavedFoods.map(food => ({ food, date: currentDate })));
+        const response = await addNutritionRecord(foodsWithDate);
+
+        if (response) {
           Toast.show({
             type: 'success',
             text1: 'Foods added successfully',
           });
-          setUnsavedFoods('')
+          setUnsavedFoods([])
+          fetchFoods();
           } 
       } catch (error) {
         console.error('Error saving foods:', error.message);
@@ -459,6 +456,16 @@ export default function Add() {
         });
       }
     };
+
+    // Group foods by date
+    const groupedFoods = savedFoods.reduce((groups, food) => {
+      const date = new Date(food.date).toLocaleDateString();
+      if (!groups[date]) {
+        groups[date] = [];
+      }
+      groups[date].push(food);
+      return groups;
+    }, {});
 
   
     return (
@@ -512,25 +519,43 @@ export default function Add() {
           <Text style={{ color: 'white' }}>Save</Text>
         </TouchableOpacity>
   
-        {/* Display saved foods */}
+        {/* Display saved foods }
         {savedFoods.map((food, index) => (
           <View key={index}>
-            {/* Display date as heading */}
+            {/* Display date as heading }
             <Text style={{ fontWeight: 'bold', fontSize: 16, marginBottom: 10 }}>
               {new Date(food.date).toLocaleDateString()}
             </Text>
-            {/* Display individual foods with delete icon */}
-            {food.food.map((item, i) => (
-              <View style={{ flexDirection: 'row', alignItems: 'center' }} key={i}>
-                <Text>{item}</Text>
+            {/* Display individual food item with delete icon }
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text>{food.food}</Text>
+              <TouchableOpacity onPress={() => deleteFood(food._id)} style={{ marginLeft: 10 }}>
+                <FontAwesome name="trash" size={20} color="red" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        ))*/}
+
+      {Object.entries(groupedFoods).map(([date, foods]) => (
+        <View key={date}>
+          {/* Display date as heading */}
+          <Text style={{ fontWeight: 'bold', fontSize: 16, marginBottom: 10 }}>
+            {date}
+          </Text>
+          {/* ScrollView for food items */}
+          <ScrollView style={{ maxHeight: 200 }}>
+            {/* Display individual food items with delete icon */}
+            {foods.map((food, index) => (
+              <View key={index} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text>{food.food}</Text>
                 <TouchableOpacity onPress={() => deleteFood(food._id)} style={{ marginLeft: 10 }}>
                   <FontAwesome name="trash" size={20} color="red" />
                 </TouchableOpacity>
               </View>
             ))}
-          </View>
-        ))}
-  
+          </ScrollView>
+        </View>
+      ))}
        
       </View>
     );
