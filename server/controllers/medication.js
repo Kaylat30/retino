@@ -1,33 +1,10 @@
 import Medication from '../models/Medication.js';
-import Appointment from '../models/Appointment.js';
-import EyeScreening from '../models/EyeScreening.js'
-import Checkup from '../models/Checkup.js'
-
 
 // Add new medication record
 export const addMedication = async (req, res) => {
     try {
         const {result,date,clinic} = req.body;
         const medication = new Medication({date,clinic,result,user:req.user._id});
-        // if(cat == "appointment")
-        // {
-        //     const appointment = new Appointment({date,clinic,result,user:req.user._id});
-        //     const savedappointment = await appointment.save();
-
-        //     res.status(201).json({ message: 'Appointment record added successfully',Appointment:savedappointment });
-        // }else if(cat == "eyescreening")
-        // {
-        //     const eyescreening = new EyeScreening({date,clinic,risk,visual,intraocular,serum,user:req.user._id});
-        //     const savedeyescreening = await eyescreening.save();
-
-        //     res.status(201).json({ message: 'EyeScreening record added successfully', EyeScreening: savedeyescreening});
-        // }else if(cat == "checkup")
-        // {
-        //     const checkup = new Checkup({date,clinic,glucose,hemoglobin,urinalysis,user:req.user._id});
-        //     const savedcheckup = await checkup.save();
-
-        //     res.status(201).json({ message: 'Checkup record added successfully',Checkup: savedcheckup });
-        // }
         const savedMedication = await medication.save();
         res.status(201).json({ message: 'Medication record added successfully', Medication: savedMedication });
     } catch (error) {

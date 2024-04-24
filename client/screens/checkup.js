@@ -8,7 +8,7 @@ import Toast from 'react-native-toast-message';
 function EyeScreening() {
   const [tableData, setTableData] = useState([]);
   const [expandedIndex, setExpandedIndex] = useState(-1);
-  const [lastDate, setLastDate] = useState('');
+  const [lastDate, setLastDate] = useState(new Date());
 
   const weekdayOptions = { weekday: 'long' };
   const dateOptions = { day: 'numeric', month: 'numeric', year: 'numeric' };
@@ -22,7 +22,8 @@ function EyeScreening() {
         const data = await getAllEyeScreenings();
         setTableData(data);
         if (data.length > 0) {
-          setLastDate(data[data.length - 1].date);
+          const lastAppointmentDate = new Date(data[data.length - 1].date);
+          setLastDate(lastAppointmentDate);
         }
       } catch (error) {
         console.error('Error fetching eye screenings:', error.message);
@@ -63,7 +64,7 @@ function EyeScreening() {
         {tableData.map((rowData, index) => (
           <View key={index}>
             <View style={{ flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: 'lightgrey', paddingBottom: 5, marginBottom: 10 }}>
-              <Text style={{ flex: 1, textAlign: 'center' }}>{rowData.date}</Text>
+              <Text style={{ flex: 1, textAlign: 'center' }}>{new Date(rowData.date).toLocaleDateString('en-US', dateOptions)}</Text>
               
               <Text style={{ flex: 1, textAlign: 'center' }}>{rowData.risk}</Text>
               <TouchableOpacity style={{ flex: 1, textAlign: 'center' }} onPress={() => toggleContent(index + 1)}>
@@ -72,12 +73,6 @@ function EyeScreening() {
             </View>
             {expandedIndex === index + 1 && (
               <View style={{ marginTop: 10 }}>
-                {/* {rowData.map((result ,resultIndex) => (
-                  <Text key={resultIndex}>Risk: {result.risk}</Text>
-                  <Text key={resultIndex}>Visual: {result}</Text>
-                  <Text key={resultIndex}>Intraocular: {result}</Text>
-                  <Text key={resultIndex}>Serum: {result}</Text>
-                ))} */}
                   <Text>Risk: {rowData.risk}</Text>
                   <Text>Visual: {rowData.visual}</Text>
                   <Text>Intraocular: {rowData.intraocular}</Text>
@@ -94,7 +89,7 @@ function EyeScreening() {
 function Checkups() {
   const [tableData, setTableData] = useState([]);
   const [expandedIndex, setExpandedIndex] = useState(-1);
-  const [lastDate, setLastDate] = useState('');
+  const [lastDate, setLastDate] = useState(new Date());
 
   const weekdayOptions = { weekday: 'long' };
   const dateOptions = { day: 'numeric', month: 'numeric', year: 'numeric' };
@@ -108,7 +103,8 @@ function Checkups() {
         const data = await getAllCheckups();
         setTableData(data);
         if (data.length > 0) {
-          setLastDate(data[data.length - 1].date);
+          const lastAppointmentDate = new Date(data[data.length - 1].date);
+          setLastDate(lastAppointmentDate);
         }
       } catch (error) {
         console.error('Error fetching diabetic checkups:', error.message);
@@ -148,7 +144,7 @@ function Checkups() {
       {tableData.map((rowData, index) => (
         <View key={index}>
           <View style={{ flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: 'lightgrey', paddingBottom: 5, marginBottom: 10 }}>
-            <Text style={{ flex: 1, textAlign: 'center'}}>{rowData.date}</Text>
+            <Text style={{ flex: 1, textAlign: 'center'}}>{new Date(rowData.date).toLocaleDateString('en-US', dateOptions)}</Text>
             <TouchableOpacity style={{ flex: 1, textAlign: 'center'}} onPress={() => toggleContent(index + 1)}>
               <Ionicons style={{ flex: 1, textAlign: 'center'}} name={expandedIndex === index + 1 ? 'chevron-up' : 'chevron-down'} size={24} color="black" />
             </TouchableOpacity>
@@ -175,7 +171,7 @@ function Checkups() {
 
 function Appointment() {
   const [tableData, setTableData] = useState([]);
-  const [lastDate, setLastDate] = useState('');
+  const [lastDate, setLastDate] = useState(new Date());
 
   const weekdayOptions = { weekday: 'long' };
   const dateOptions = { day: 'numeric', month: 'numeric', year: 'numeric' };
@@ -189,7 +185,8 @@ function Appointment() {
         const data = await getAllAppointments();
         setTableData(data);
         if (data.length > 0) {
-          setLastDate(data[data.length - 1].date);
+          const lastAppointmentDate = new Date(data[data.length - 1].date);
+          setLastDate(lastAppointmentDate);
         }
       } catch (error) {
         console.error('Error fetching appointments:', error.message);
@@ -266,7 +263,7 @@ function Appointment() {
         {tableData.map((rowData, index) => (
           <View key={index}>
             <View style={{ flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: 'lightgrey', paddingBottom: 5, marginBottom: 10 }}>
-              <Text style={{ flex: 1, textAlign: 'center' }}>{rowData.date}</Text>
+              <Text style={{ flex: 1, textAlign: 'center' }}>{new Date(rowData.date).toLocaleDateString('en-US', dateOptions)}</Text>
               
               <Text style={{ flex: 1, textAlign: 'center' }}>{rowData.clinic}</Text>
               <TouchableOpacity style={{ flex: 1, textAlign: 'center' }} onPress={() => toggleContent(index + 1)}>

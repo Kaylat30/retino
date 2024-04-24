@@ -223,7 +223,7 @@ export default function Add() {
         }
     
       } catch (error) {
-        console.error('Error adding medication record:', error.message);
+        console.error('Error adding record:', error.message);
         Toast.show({
           type: 'error',
           text1: 'Adding details Failed',

@@ -593,7 +593,7 @@ export const deleteEyeScreening = async (eyeScreeningId) => {
 
 
 // Function to add a new medication record
-export const addMedication = async (parsedDate,clinic,result) => {
+export const addMedication = async (date,clinic,result) => {
   try {
     const response = await fetch(`${url}/addMedication`, {
       method: 'POST',
@@ -601,7 +601,7 @@ export const addMedication = async (parsedDate,clinic,result) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({result:result,date:parsedDate,clinic:clinic}),
+      body: JSON.stringify({result:result,date:date,clinic:clinic}),
     });
 
     if (!response.ok) {
