@@ -28,8 +28,8 @@ export const addMedication = async (req, res) => {
 
         //     res.status(201).json({ message: 'Checkup record added successfully',Checkup: savedcheckup });
         // }
-        //const savedMedication = await medication.save();
-        //res.status(201).json({ message: 'Medication record added successfully', EyeScreening: savedeyescreening ,Checkup: savedcheckup ,Appointment:savedappointment });
+        const savedMedication = await medication.save();
+        res.status(201).json({ message: 'Medication record added successfully', Medication: savedMedication });
     } catch (error) {
         res.status(500).json({ success: false,error: error.message });
     }

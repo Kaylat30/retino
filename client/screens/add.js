@@ -190,36 +190,38 @@ export default function Add() {
   
     const handleSave = async () => {
       try {
-        //const success = await addMedication(cat, risk, visual, intraocular, serum, glucose, hemoglobin, urinalysis, result, date, clinic);
-        if(cat=="appointment")
-        {
-          const response = await addMedication(date,clinic,result)
+        // Split the date string into day, month, and year components
+        const [day, month, year] = date.split('/').map(part => parseInt(part));
+    
+        // Create a new Date object using the components
+        const parsedDate = new Date(year, month - 1, day); // Month is 0-based in JavaScript Date constructor
+        console.log(parsedDate, clinic, result)
+        if (cat === "appointment") {
+          const response = await addMedication(parsedDate, clinic, result);
           if (response) {
             Toast.show({
               type: 'success',
               text1: 'Appointment details added successfully',
             });
-            }
-        }else if(cat=="checkup")
-        {
-          const response = await addCheckup(date,clinic,glucose,hemoglobin,urinalysis)
+          }
+        } else if (cat === "checkup") {
+          const response = await addCheckup(parsedDate, clinic, glucose, hemoglobin, urinalysis);
           if (response) {
             Toast.show({
               type: 'success',
               text1: 'Checkup details added successfully',
             });
-            }
-        } else if(cat=="eyescreening")
-        {
-          const response = await addEyeScreening(date,clinic,visual,intraocular,serum,risk)
+          }
+        } else if (cat === "eyescreening") {
+          const response = await addEyeScreening(parsedDate, clinic, visual, intraocular, serum, risk);
           if (response) {
             Toast.show({
               type: 'success',
               text1: 'Eyescreening details added successfully',
             });
-            }
+          }
         }
-        
+    
       } catch (error) {
         console.error('Error adding medication record:', error.message);
         Toast.show({
@@ -229,6 +231,7 @@ export default function Add() {
         });
       }
     };
+    
   
     const renderForms = () => {
       switch (cat) {

@@ -1,17 +1,6 @@
 import Nutrition from '../models/Nutrition.js'
 
 // Add new nutrition record
-// export const addNutrition = async (req, res) => {
-//     try {
-//         const {food,date} = req.body
-//         const nutrition = new Nutrition({food,date,user:req.user._id});
-//         const savedNutrition = await nutrition.save();
-//         res.status(201).json({ message: 'Nutrition record added successfully',Nutrition:savedNutrition });
-//     } catch (error) {
-//         res.status(500).json({ success: false,error: error.message });
-//     }
-// };
-
 export const addNutrition = async (req, res) => {
     try {
         const { foods } = req.body;
