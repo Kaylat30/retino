@@ -618,7 +618,7 @@ export const addMedication = async (date,clinic,result) => {
 // Function to get all medication records
 export const getAllMedicationRecords = async () => {
   try {
-    const response = await fetch(`${url}/getMedicationRecords`, {
+    const response = await fetch(`${url}/getMedications`, {
       method: 'POST',
       credentials:'includes',
     });

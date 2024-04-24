@@ -2,7 +2,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { View, Text,TouchableOpacity,TextInput, ScrollView } from 'react-native';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React ,{useState,useEffect}from 'react';
-import { addAppointment, getAllAppointments, getAllCheckups, getAllEyeScreenings } from '../api';
+import { addAppointment, getAllAppointments, getAllCheckups, getAllEyeScreenings, getAllMedicationRecords } from '../api';
 import Toast from 'react-native-toast-message';
 
 function EyeScreening() {
@@ -182,7 +182,7 @@ function Appointment() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getAllAppointments();
+        const data = await getAllMedicationRecords();
         setTableData(data);
         if (data.length > 0) {
           const lastAppointmentDate = new Date(data[data.length - 1].date);
@@ -219,6 +219,12 @@ function Appointment() {
           type: 'success',
           text1: 'Appointment sent Successfully',
         });
+        setClinic('')
+        setDescription('')
+        setNumber('')
+        setEmail('')
+        setMessage('')
+        setName('')
       }
     } catch (error) {
       Toast.show({
@@ -242,12 +248,12 @@ function Appointment() {
 
   return (
     <ScrollView style={{ marginBottom: 70 }}>
-      <Text style={{ fontWeight: 'bold', fontSize: 25, marginBottom: 10, textAlign: 'center',marginVertical:20 }}>Eye Screening</Text>
-      <Text style={{marginLeft:40,fontWeight: 'bold', marginVertical:10}}>Screening reminder</Text>
+      <Text style={{ fontWeight: 'bold', fontSize: 25, marginBottom: 10, textAlign: 'center',marginVertical:20 }}>Appointment</Text>
+      <Text style={{marginLeft:40,fontWeight: 'bold', marginVertical:10}}>Appointment reminder</Text>
 
       <View style={{ backgroundColor: 'white', borderRadius: 10, padding: 20, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5, marginHorizontal: 40 }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Text style={{ color: 'grey', fontSize: 19 }}>{weekdayString}</Text>
+      <Text style={{ color: 'grey', fontSize: 19 }}>{weekdayString}</Text>
         <Text style={{ color: 'black', fontSize: 19 }}>{dateString}</Text>
       </View>
       </View>
@@ -272,9 +278,6 @@ function Appointment() {
             </View>
             {expandedIndex === index + 1 && (
               <View style={{ marginTop: 10 }}>
-                {/* {rowData.results.map((result, resultIndex) => (
-                  <Text key={resultIndex}>{result}</Text>
-                ))} */}
                 <Text>Result: {rowData.result}</Text>
               </View>
             )}
