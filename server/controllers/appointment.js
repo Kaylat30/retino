@@ -3,7 +3,7 @@ import Appointment from '../models/Appointment.js'
 // Add new appointment
 export const addAppointment = async (req, res) => {
     try {
-        const {date,clinic,email,number,description,message,name,result} = req.body
+        const {date,clinic,email,number,description,message,name} = req.body
         const appointment = new Appointment({date,clinic,email,number,description,message,name,result,user:req.user._id});
         const savedAppointment = await appointment.save();
         res.status(201).json({ message: 'Appointment added successfully',Appointment:savedAppointment });
@@ -25,9 +25,9 @@ export const getAppointments = async (req, res) => {
 // Update appointment
 export const updateAppointment = async (req, res) => {
     try {
-        const {id,date,clinic,email,number,description,message,name,result} = req.body
+        const {id,result} = req.body
         const updatedAppointment = await Appointment.findByIdAndUpdate(id,
-            {date:date,clinic:clinic,email:email,number:number,description:description,message:message,name:name,result:result},
+            {$set: {result:result}},
             {new:true});
         res.status(200).json({ message: 'Appointment updated successfully' ,Appointment: updatedAppointment });
     } catch (error) {

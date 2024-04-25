@@ -29,7 +29,7 @@ const eyeScreeningSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-});
+},{ timestamps: true });
 
 const EyeScreening = mongoose.model('EyeScreening', eyeScreeningSchema);
 

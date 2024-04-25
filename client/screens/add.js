@@ -4,7 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import { RadioButton} from 'react-native-paper';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { FontAwesome } from '@expo/vector-icons';
-import { addNutritionRecord,getAllNutritionRecords ,deleteNutritionRecord,addMedication, addCheckup, addAppointment, addEyeScreening} from '../api';
+import { addNutritionRecord,getAllNutritionRecords ,deleteNutritionRecord,addMedication, addCheckup, addAppointment, addEyeScreening, updateAppointment} from '../api';
 import Toast from 'react-native-toast-message';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -26,6 +26,21 @@ export default function Add() {
     const [urinalysis, setUrinalysis] = useState('');
     const [notificationsEnabled, setNotificationsEnabled] = useState(false);
     const [selectedGender, setSelectedGender] = useState('');
+    const [appointments, setAppointments] = useState([]);
+
+    useEffect(() => {
+      const fetchAppointments = async () => {
+        try {
+          const appointmentsData = await getAllAppointments();
+          setAppointments(appointmentsData);
+        } catch (error) {
+          console.error('Error fetching appointments:', error.message);
+          ToastAndroid.show(`Error fetching appointments: ${error.message}`, ToastAndroid.SHORT);
+        }
+      };
+
+      fetchAppointments();
+    }, []);
   
     const handleSave = async () => {
       try {
@@ -35,7 +50,11 @@ export default function Add() {
         // Create a new Date object using the components
         const parsedDate = new Date(year, month - 1, day); 
         if (cat === "appointment") {
-          const response = await addMedication(parsedDate, clinic, result);
+          let id = null;
+          if (appointments.length > 0) {
+            id = appointments[appointments.length - 1]._id;
+          }
+          const response = await updateAppointment(id,result);
           if (response) {
             Toast.show({
               type: 'success',
@@ -89,7 +108,7 @@ export default function Add() {
         case 'appointment':
           return (
             <>
-              <Text>Date:</Text>
+              {/* <Text>Date:</Text>
               <TextInput
                 style={{ height: 40, borderColor: 'gray', borderWidth: 1, marginBottom: 10 }}
                 onChangeText={text => setDate(text)}
@@ -100,7 +119,7 @@ export default function Add() {
                 style={{ height: 40, borderColor: 'gray', borderWidth: 1, marginBottom: 10 }}
                 onChangeText={text => setClinic(text)}
                 value={clinic}
-              />
+              /> */}
               <Text>Result:</Text>
               <TextInput
                 style={{ height: 40, borderColor: 'gray', borderWidth: 1, marginBottom: 10 }}

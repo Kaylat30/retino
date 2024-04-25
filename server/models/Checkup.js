@@ -25,7 +25,7 @@ const checkupSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-});
+},{ timestamps: true });
 
 const Checkup = mongoose.model('Checkup', checkupSchema);
 

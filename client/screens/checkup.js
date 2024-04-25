@@ -4,6 +4,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import React ,{useState,useEffect}from 'react';
 import { addAppointment, getAllAppointments, getAllCheckups, getAllEyeScreenings, getAllMedicationRecords } from '../api';
 import Toast from 'react-native-toast-message';
+import { registerForPushNotificationsAsync,schedulePushNotification } from '../components/notificationService'
 
 function EyeScreening() {
   const [tableData, setTableData] = useState([]);
@@ -21,6 +22,7 @@ function EyeScreening() {
       try {
         const data = await getAllEyeScreenings();
         setTableData(data);
+        console.log("Eye Screening data :",data);
         if (data.length > 0) {
           const lastAppointmentDate = new Date(data[data.length - 1].date);
           setLastDate(lastAppointmentDate);
@@ -102,6 +104,7 @@ function Checkups() {
       try {
         const data = await getAllCheckups();
         setTableData(data);
+        console.log("Checkup data :",data);
         if (data.length > 0) {
           const lastAppointmentDate = new Date(data[data.length - 1].date);
           setLastDate(lastAppointmentDate);
@@ -179,19 +182,20 @@ function Appointment() {
   const weekdayString = lastDate.toLocaleDateString('en-US', weekdayOptions);
   const dateString = lastDate.toLocaleDateString('en-US', dateOptions);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getAllMedicationRecords();
-        setTableData(data);
-        if (data.length > 0) {
-          const lastAppointmentDate = new Date(data[data.length - 1].date);
-          setLastDate(lastAppointmentDate);
-        }
-      } catch (error) {
-        console.error('Error fetching appointments:', error.message);
+  const fetchData = async () => {
+    try {
+      const data = await getAllAppointments();
+      setTableData(data);
+      if (data.length > 0) {
+        const lastAppointmentDate = new Date(data[data.length - 1].date);
+        setLastDate(lastAppointmentDate);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching appointments:', error.message);
+    }
+  };
+
+  useEffect(() => {  
 
     fetchData();
   }, []);
@@ -211,20 +215,27 @@ function Appointment() {
  
   const handleSubmit = async () => {
     try {
-      
-      const response = await addAppointment(clinic, email, number, description, message, name);
+      // Generate a random date within the next 7 days
+      const nextAppointmentDate = new Date();
+      nextAppointmentDate.setDate(nextAppointmentDate.getDate() + Math.floor(Math.random() * 7) + 1);
+  
+      // Add appointment with generated date
+      const response = await addAppointment(clinic, email, number, description, message, name, nextAppointmentDate);
   
       if (response) {
         Toast.show({
           type: 'success',
           text1: 'Appointment sent Successfully',
         });
-        setClinic('')
-        setDescription('')
-        setNumber('')
-        setEmail('')
-        setMessage('')
-        setName('')
+        fetchData()
+  
+        // Clear form fields
+        setClinic('');
+        setDescription('');
+        setNumber('');
+        setEmail('');
+        setMessage('');
+        setName('');
       }
     } catch (error) {
       Toast.show({
@@ -233,7 +244,7 @@ function Appointment() {
         text2: error.message,
       });
     }
-  };
+  };  
   
 
   const [expandedIndex, setExpandedIndex] = useState(-1);
@@ -247,7 +258,7 @@ function Appointment() {
   };
 
   return (
-    <ScrollView style={{ marginBottom: 70 }}>
+    <ScrollView style={{ marginBottom: 100 }}>
       <Text style={{ fontWeight: 'bold', fontSize: 25, marginBottom: 10, textAlign: 'center',marginVertical:20 }}>Appointment</Text>
       <Text style={{marginLeft:40,fontWeight: 'bold', marginVertical:10}}>Appointment reminder</Text>
 

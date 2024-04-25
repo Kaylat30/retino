@@ -11,7 +11,7 @@ export const TopTabNavigator = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(-200)).current;
   const route = useRoute()
-  const { firstName } = route.params;
+  const firstName = route.params ? route.params.firstName : '';
 
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
