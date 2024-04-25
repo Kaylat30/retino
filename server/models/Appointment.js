@@ -11,7 +11,7 @@ const appointmentSchema = new mongoose.Schema({
         type: String,
     },
     number: {
-        type: String,
+        type: Number,
     },
     description: {
         type: String

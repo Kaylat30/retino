@@ -22,7 +22,7 @@ function EyeScreening() {
       try {
         const data = await getAllEyeScreenings();
         setTableData(data);
-        console.log("Eye Screening data :",data);
+        
         if (data.length > 0) {
           const lastAppointmentDate = new Date(data[data.length - 1].date);
           setLastDate(lastAppointmentDate);
@@ -104,7 +104,7 @@ function Checkups() {
       try {
         const data = await getAllCheckups();
         setTableData(data);
-        console.log("Checkup data :",data);
+      
         if (data.length > 0) {
           const lastAppointmentDate = new Date(data[data.length - 1].date);
           setLastDate(lastAppointmentDate);

@@ -26,7 +26,7 @@ export default function Home() {
     const fetchEyeScreenings = async () => {
       try {
         const data = await getAllEyeScreenings();
-        console.log("Fetching eye",data)
+        
         setEyeScreenings(data);
       } catch (error) {
         console.error('Error fetching eye screenings:', error.message);
@@ -37,7 +37,7 @@ export default function Home() {
     const fetchCheckups = async () => {
       try {
         const data = await getAllCheckups();
-        console.log("Fetching checkups",data)
+        
         setCheckups(data);
       } catch (error) {
         console.error('Error fetching checkups:', error.message);
