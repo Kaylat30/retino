@@ -4,7 +4,7 @@ import Appointment from '../models/Appointment.js'
 export const addAppointment = async (req, res) => {
     try {
         const {date,clinic,email,number,description,message,name} = req.body
-        const appointment = new Appointment({date,clinic,email,number,description,message,name,result,user:req.user._id});
+        const appointment = new Appointment({date,clinic,email,number,description,message,name,user:req.user._id});
         const savedAppointment = await appointment.save();
         res.status(201).json({ message: 'Appointment added successfully',Appointment:savedAppointment });
     } catch (error) {

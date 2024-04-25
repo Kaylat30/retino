@@ -29,7 +29,7 @@ const Notification = () => {
         }] : [];
   
         const transformedEyeScreenings = eyeScreenings.length > 0 ? [{
-          id: 1,
+          id: 2,
           image: require('../assets/splash.png'),
           title: 'New Eye Screening Schedule',
           message: `You have an eye screening scheduled on ${new Date(eyeScreenings[eyeScreenings.length - 1].date).toLocaleDateString('en-US')}  at ${eyeScreenings[eyeScreenings.length - 1].clinic}`,
@@ -39,7 +39,7 @@ const Notification = () => {
         }] : [];
   
         const transformedCheckups = checkups.length > 0 ? [{
-          id: 1,
+          id: 3,
           image: require('../assets/splash.png'),
           title: 'New Diabetes Appointment Schedule',
           message: `You have a diabetes checkup scheduled on ${new Date(checkups[checkups.length - 1].date).toLocaleDateString('en-US')}  at ${checkups[checkups.length - 1].clinic}`,

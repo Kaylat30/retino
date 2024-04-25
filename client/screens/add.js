@@ -4,7 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import { RadioButton} from 'react-native-paper';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { FontAwesome } from '@expo/vector-icons';
-import { addNutritionRecord,getAllNutritionRecords ,deleteNutritionRecord,addMedication, addCheckup, addAppointment, addEyeScreening, updateAppointment} from '../api';
+import { addNutritionRecord,getAllNutritionRecords ,deleteNutritionRecord,addMedication, addCheckup, addAppointment, addEyeScreening, updateAppointment,getAllAppointments} from '../api';
 import Toast from 'react-native-toast-message';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -50,10 +50,7 @@ export default function Add() {
         // Create a new Date object using the components
         const parsedDate = new Date(year, month - 1, day); 
         if (cat === "appointment") {
-          let id = null;
-          if (appointments.length > 0) {
-            id = appointments[appointments.length - 1]._id;
-          }
+          let id = appointments[appointments.length - 1]._id;
           const response = await updateAppointment(id,result);
           if (response) {
             Toast.show({
