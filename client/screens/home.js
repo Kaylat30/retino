@@ -70,60 +70,71 @@ export default function Home() {
 
   // Function to recommend nutrition based on glucose levels
   const recommendNutrition = (glucoseLevel) => {
-    if (glucoseLevel < 70) {
+    if (glucoseLevel < 3.9) {
       return [
-        { name: 'Fish', ImageUri: require('../assets/splash.png'), calories: 200 },
-        { name: 'Eggs', ImageUri: require('../assets/splash.png'), calories: 150 },
-        { name: 'Milk', ImageUri: require('../assets/splash.png'), calories: 100 },
-        { name: 'Juice', ImageUri: require('../assets/splash.png'), calories: 120 }
+        { name: 'Fish', ImageUri: require('../assets/fish.jpg'), calories: 200 },
+        { name: 'Eggs', ImageUri: require('../assets/eggs.jpg'), calories: 150 },
+        { name: 'Milk', ImageUri: require('../assets/milk.jpg'), calories: 100 },
+        { name: 'Juice', ImageUri: require('../assets/juice.jpg'), calories: 120 },
+        { name: 'Chicken Breast', ImageUri: require('../assets/chicken.jpg'), calories: 180 },
+        { name: 'Spinach', ImageUri: require('../assets/spinach.jpg'), calories: 30 }
       ];
-    } else if (glucoseLevel >= 70 && glucoseLevel <= 140) {
+    } else if (glucoseLevel >= 3.9 && glucoseLevel <= 6.9) {
       return [
-        { name: 'Vegetables', ImageUri: require('../assets/splash.png'), calories: 80 },
-        { name: 'Chicken', ImageUri: require('../assets/splash.png'), calories: 250 },
-        { name: 'Salad', ImageUri: require('../assets/splash.png'), calories: 150 },
-        { name: 'Yogurt', ImageUri: require('../assets/splash.png'), calories: 120 }
+        { name: 'Vegetables', ImageUri: require('../assets/vegetables.jpg'), calories: 80 },
+        { name: 'Chicken', ImageUri: require('../assets/chicken.jpg'), calories: 250 },
+        { name: 'Salad', ImageUri: require('../assets/salad.jpg'), calories: 150 },
+        { name: 'Yogurt', ImageUri: require('../assets/yogurt.jpg'), calories: 120 },
+        { name: 'Brown Rice', ImageUri: require('../assets/brown_rice.jpg'), calories: 200 },
+        { name: 'Berries', ImageUri: require('../assets/berries.jpg'), calories: 50 }
       ];
     } else {
       return [
-        { name: 'Nuts', ImageUri: require('../assets/splash.png'), calories: 180 },
-        { name: 'Whole Grain Bread', ImageUri: require('../assets/splash.png'), calories: 160 },
-        { name: 'Avocado', ImageUri: require('../assets/splash.png'), calories: 200 },
-        { name: 'Quinoa', ImageUri: require('../assets/splash.png'), calories: 220 }
+        { name: 'Nuts', ImageUri: require('../assets/nuts.jpg'), calories: 180 },
+        { name: 'Whole Grain Bread', ImageUri: require('../assets/bread.jpg'), calories: 160 },
+        { name: 'Avocado', ImageUri: require('../assets/avocado.jpg'), calories: 200 },
+        { name: 'Quinoa', ImageUri: require('../assets/aquinoa.jpg'), calories: 220 },
+        { name: 'Lentils', ImageUri: require('../assets/lentils.jpg'), calories: 230 },
+        { name: 'Sweet Potato', ImageUri: require('../assets/potato.jpg'), calories: 130 }
       ];
     }
   };
-
-  // Function to generate data for Pie Chart
-  // const generatePieChartData = () => {
-  //   const lastCheckup = checkupsData[checkupsData.length - 1];
-  //   return [
-  //     { name: 'Urinalysis', value: lastCheckup.urinalysis, color: '#FF6347' }, // Red color
-  //     { name: 'Hemoglobin', value: lastCheckup.hemoglobin, color: '#00FFFF' }, // Cyan color
-  //     { name: 'Glucose', value: lastCheckup.glucose, color: '#FFD700' } // Gold color
-  //   ];
-  // };
+  
   
 
-  // const pieChartConfig = {
-  //   backgroundColor: '#e26a00',
-  //   backgroundGradientFrom: '#fb8c00',
-  //   backgroundGradientTo: '#ffa726',
-  //   color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-  //   style: {
-  //     borderRadius: 16
-  //   },
-  //   propsForLabels: {
-  //     fontSize: 12
-  //   },
-  //   propsForDots: {
-  //     r: "6",
-  //     strokeWidth: "2",
-  //     stroke: "#ffa726"
-  //   }
-  // };
+  const generatePieChartData = () => {
+    if (checkupsData.length === 0) {
+      return [];
+    }
+    const lastCheckup = checkupsData[checkupsData.length - 1];
+    return [
+      { name: 'Urinalysis', value: lastCheckup.urinalysis || 0, color: '#FF6347' },
+      { name: 'Hemoglobin', value: lastCheckup.hemoglobin || 0, color: '#00FFFF' },
+      { name: 'Glucose', value: lastCheckup.glucose || 0, color: '#FFD700' }
+    ];
+  };
+  
+  
 
-  // // Function to generate data for Progress Chart
+  const pieChartConfig = {
+    backgroundColor: '#e26a00',
+    backgroundGradientFrom: '#fb8c00',
+    backgroundGradientTo: '#ffa726',
+    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+    style: {
+      borderRadius: 16
+    },
+    propsForLabels: {
+      fontSize: 12
+    },
+    propsForDots: {
+      r: "6",
+      strokeWidth: "2",
+      stroke: "#ffa726"
+    }
+  };
+
+  // Function to generate data for Progress Chart
   // const generateProgressChartData = () => {
   //   return {
   //     labels: ['Urinalysis', 'Hemoglobin', 'Glucose'],
@@ -131,42 +142,41 @@ export default function Home() {
   //   };
   // };
 
-  // // Function to generate data for Contribution Graph
-  // const generateContributionGraphData = () => {
-  //   const eyeScreeningDataPoints = eyeScreeningsData.map(item => ({
-  //     date: item.date,
-  //     count: 1, // Plot each eye screening date with 10 dots
-  //     color: '#00FF00' // Green color for eye screenings
-  //   }));
+  // Function to generate data for Contribution Graph
+  const generateContributionGraphData = () => {
+    const eyeScreeningDataPoints = eyeScreeningsData.map(item => ({
+      date: item.date.toDateString(),
+      count: 1, // Plot each eye screening date with 10 dots
+      color: '#00FF00' // Green color for eye screenings
+    }));
   
-  //   const checkupDataPoints = checkupsData.map(item => ({
-  //     date: item.date,
-  //     count: 1, // Plot each checkup date with 10 dots
-  //     color: '#FF0000' // Red color for checkups
-  //   }));
+    const checkupDataPoints = checkupsData.map(item => ({
+      date: item.date.toDateString(),
+      count: 1, // Plot each checkup date with 10 dots
+      color: '#FF0000' // Red color for checkups
+    }));
   
-  //   // Merge eye screening and checkup data points
-  //   const allDataPoints = [...eyeScreeningDataPoints, ...checkupDataPoints];
-  //   console.log(allDataPoints)
-  
-  //   return allDataPoints;
-  // };
+    // Merge eye screening and checkup data points
+    const allDataPoints = [...eyeScreeningDataPoints, ...checkupDataPoints];
+    
+    return allDataPoints;
+  };
   
   
 
-  // // Function to generate data for Stacked Bar Chart
-  // const generateStackedBarChartData = () => {
-  //   return {
-  //     labels: checkupsData.map(item => item.date.toDateString()),
-  //     legend: ['Dose 1', 'Dose 2'],
-  //     data: [
-  //       checkupsData.map(item => item.urinalysis),
-  //       checkupsData.map(item => item.hemoglobin),
-  //       checkupsData.map(item => item.glucose)
-  //     ],
-  //     barColors: ["#dfe4ea", "#ced6e0", "#a4b0be"]
-  //   };
-  // };
+  // Function to generate data for Stacked Bar Chart
+  const generateStackedBarChartData = () => {
+    return {
+      labels: checkupsData.map(item => item.date.toDateString()),
+      legend: ['Urinalysis', 'Hemoglobin','Glucose'],
+      data: [
+        checkupsData.map(item => item.urinalysis),
+        checkupsData.map(item => item.hemoglobin),
+        checkupsData.map(item => item.glucose)
+      ],
+      barColors: ["#dfe4ea", "#a4b0be", "#000000"]
+    };
+  };
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center', paddingBottom: 90 }}>
@@ -234,7 +244,7 @@ export default function Home() {
           </View>
         </View>
 
-        {/* Pie Chart }
+        {/* Pie Chart */}
         <Text style={{ fontSize: 18, marginBottom: 10 }}>Latest Checkup Details</Text>
         <PieChart
           data={generatePieChartData()}
@@ -246,7 +256,7 @@ export default function Home() {
           paddingLeft="15"
         />
 
-        {/* Progress Chart }
+        {/* Progress Chart 
         <Text style={{ fontSize: 18, marginBottom: 10 }}>Progress Chart</Text>
         <ProgressChart
           data={generateProgressChartData()}
@@ -262,14 +272,14 @@ export default function Home() {
               borderRadius: 16
             }
           }}
-        />
+        />*/}
 
-        {/* Contribution Graph }
+        {/* Contribution Graph */}
         <Text style={{ fontSize: 18, marginBottom: 10 }}>Contribution Graph</Text>
         <ContributionGraph
           values={generateContributionGraphData()}
-          endDate={new Date()}
-          numDays={90}
+          endDate={new Date("2024-4-13")}
+          numDays={105}
           width={300}
           height={200}
           chartConfig={{
@@ -284,12 +294,12 @@ export default function Home() {
           style={{ marginBottom: 20 }}
         />
 
-        {/* Stacked Bar Chart }
+        {/* Stacked Bar Chart */}
         <Text style={{ fontSize: 18, marginBottom: 10 }}>Stacked Bar Chart</Text>
         <StackedBarChart
           data={generateStackedBarChartData()}
           width={300}
-          height={200}
+          height={350}
           chartConfig={{
             backgroundColor: '#e26a00',
             backgroundGradientFrom: '#fb8c00',
@@ -300,9 +310,11 @@ export default function Home() {
             }
           }}
           style={{ marginBottom: 20 }}
-        />*/}
+        />
 
       </View>
     </ScrollView>
   );
 }
+
+

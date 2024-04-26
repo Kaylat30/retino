@@ -1,16 +1,21 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const BlogItem = ({ id, title, image, author, name, datePosted, content, onPress }) => {
+const BlogItem = ({ id, title, image, author, datePosted, content, onPress }) => {
   const navigation = useNavigation();
 
+  // Handle press event to navigate to BlogInfo screen
+  const handlePress = () => {
+    onPress(); // Call the onPress function passed from the parent component
+  };
+
   const words = content.split(' ');
-  const shortenedContent = words.slice(0, 15).join(' ');
+  const shortenedContent = words.slice(0, 25).join(' ');
 
   return (
-    <TouchableOpacity style={styles.blogItem} onPress={() => onPress(id)}>
-      <Image source={image} style={styles.blogImage} />
+    <TouchableOpacity style={styles.blogItem} onPress={handlePress}>
+      <Image source={{uri:image}} style={styles.blogImage} />
       <View style={styles.blogContent}>
         <Text style={styles.blogTitle}>{title}</Text>
         <Text style={styles.blogMeta}>

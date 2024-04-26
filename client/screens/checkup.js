@@ -68,14 +68,14 @@ function EyeScreening() {
             <View style={{ flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: 'lightgrey', paddingBottom: 5, marginBottom: 10 }}>
               <Text style={{ flex: 1, textAlign: 'center' }}>{new Date(rowData.date).toLocaleDateString('en-US', dateOptions)}</Text>
               
-              <Text style={{ flex: 1, textAlign: 'center' }}>{rowData.risk}</Text>
+              <Text style={{ flex: 1, textAlign: 'center' }}>{rowData.risk}%</Text>
               <TouchableOpacity style={{ flex: 1, textAlign: 'center' }} onPress={() => toggleContent(index + 1)}>
                 <Ionicons style={{ flex: 1, textAlign: 'center' }} name={expandedIndex === index + 1 ? 'chevron-up' : 'chevron-down'} size={24} color="black" />
               </TouchableOpacity>
             </View>
             {expandedIndex === index + 1 && (
               <View style={{ marginTop: 10 }}>
-                  <Text>Risk: {rowData.risk}</Text>
+                  <Text>Risk: {rowData.risk} %</Text>
                   <Text>Visual: {rowData.visual}</Text>
                   <Text>Intraocular: {rowData.intraocular}</Text>
                   <Text>Serum: {rowData.serum}</Text>
