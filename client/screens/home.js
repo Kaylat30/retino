@@ -26,8 +26,9 @@ export default function Home() {
     const fetchEyeScreenings = async () => {
       try {
         const data = await getAllEyeScreenings();
-        
-        setEyeScreenings(data);
+        const lastEightData = data.slice(-9);
+        const allEightDataExcludingLastOne = lastEightData.slice(0, lastEightData.length - 1);
+        setEyeScreenings(allEightDataExcludingLastOne);
       } catch (error) {
         console.error('Error fetching eye screenings:', error.message);
       }
@@ -37,16 +38,33 @@ export default function Home() {
     const fetchCheckups = async () => {
       try {
         const data = await getAllCheckups();
+        const lastEightData = data.slice(-9);
+        const allEightDataExcludingLastOne = lastEightData.slice(0, lastEightData.length - 1);        
+        setCheckups(allEightDataExcludingLastOne);
         
-        setCheckups(data);
       } catch (error) {
         console.error('Error fetching checkups:', error.message);
       }
     };
 
-    fetchEyeScreenings();
-    fetchCheckups();
-  }, [eyeScreenings.length, checkups.length]);
+    const fetchDataPeriodically = () => {
+      // Fetch data immediately when component mounts
+      fetchEyeScreenings();
+      fetchCheckups();
+  
+      // Fetch data every 10 seconds
+      const intervalId = setInterval(fetchEyeScreenings, 2000);
+      const intervalId1 = setInterval(fetchCheckups, 2000);
+  
+      // Clear interval when component unmounts
+      return () => clearInterval(intervalId,intervalId1);
+    };
+  
+    // Start fetching data periodically when component mounts
+    fetchDataPeriodically();
+
+    
+  }, []);
 
   const eyeScreeningsData = eyeScreenings.map(item => ({
     date: new Date(item.date),

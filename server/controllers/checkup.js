@@ -1,17 +1,6 @@
 import Checkup from '../models/Checkup.js'
 
 // Add new checkup
-// export const addCheckup = async (req, res) => {
-//     try {
-//         const {date,clinic,glucose,hemoglobin,urinalysis} = req.body
-//         const checkup = new Checkup({date,clinic,user:req.user._id,glucose,hemoglobin,urinalysis});
-//         const savedCheckup = await checkup.save();
-//         res.status(201).json({ message: 'Checkup added successfully' ,Checkup: savedCheckup});
-//     } catch (error) {
-//         res.status(500).json({ success: false,error: error.message });
-//     }
-// };
-
 export const addCheckup = async (req, res) => {
     try {
         const {date} = req.body

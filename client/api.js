@@ -394,27 +394,6 @@ export const deleteAppointment = async (appointmentId) => {
 
 
 // Function to add a new checkup
-// export const addCheckup = async (date,clinic,glucose,hemoglobin,urinalysis) => {
-//   try {
-//     const response = await fetch(`${url}/addCheckup`, {
-//       method: 'POST',
-//       credentials:'include',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify({date:date,clinic:clinic,glucose:glucose,hemoglobin:hemoglobin,urinalysis:urinalysis}),
-//     });
-
-//     if (!response.ok) {
-//       throw new Error('Failed to add checkup');
-//     }
-
-//     return await response.json();
-//   } catch (error) {
-//     console.error('Error adding checkup:', error.message);
-//     throw error;
-//   }
-// };
 export const addCheckup = async (date) => {
   try {
     const response = await fetch(`${url}/addCheckup`, {
@@ -524,28 +503,6 @@ export const deleteCheckup = async (id) => {
 
 
 // Function to add a new eye screening
-// export const addEyeScreening = async (date,clinic,visual,intraocular,serum,risk) => {
-//   try {
-//     const response = await fetch(`${url}/addEyeScreening`, {
-//       method: 'POST',
-//       credentials:'include',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify({date:date,clinic:clinic,visual:visual,intraocular:intraocular,serum:serum,risk:risk}),
-//     });
-
-//     if (!response.ok) {
-//       throw new Error('Failed to add eye screening');
-//     }
-
-//     return await response.json();
-//   } catch (error) {
-//     console.error('Error adding eye screening:', error.message);
-//     throw error;
-//   }
-// };
-
 export const addEyeScreening = async (date) => {
   try {
     const response = await fetch(`${url}/addEyeScreening`, {

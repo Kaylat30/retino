@@ -71,36 +71,7 @@ export default function Add() {
     
         // Create a new Date object using the components
         const parsedDate = new Date(year, month - 1, day); 
-        // if (cat === "appointment") {
-        //   let id = appointments[appointments.length - 1]._id;
-        //   const response = await updateAppointment(id,result);
-        //   if (response) {
-        //     Toast.show({
-        //       type: 'success',
-        //       text1: 'Appointment details added successfully',
-        //     });
-        //   }
-        // } else if (cat === "checkup") {
-        //   const response = await addCheckup(parsedDate, clinic, glucose, hemoglobin, urinalysis);
-        //   if (response) {
-        //     Toast.show({
-        //       type: 'success',
-        //       text1: 'Checkup details added successfully',
-        //     });
-        //   }
-        // } else if (cat === "eyescreening") {
-        //   let id = eyescreening[eyescreening.length - 1]._id;
-        //   // const response = await addEyeScreening(parsedDate, clinic, visual, intraocular, serum, risk);
-        //   const update = await updateEyeScreening(id,clinic, visual, intraocular, serum, risk);
-        //   const add = await addEyeScreening(parsedDate);
-          
-        //   if (add && update) {
-        //     Toast.show({
-        //       type: 'success',
-        //       text1: 'Eyescreening details added successfully',
-        //     });
-        //   }
-        // }
+    
         if (cat === "appointment") {
           let id = appointments[appointments.length - 1]._id;
           const response = await updateAppointment(id,result);
@@ -120,8 +91,6 @@ export default function Add() {
             }
           }
         
-          console.log("Parseddate",parsedDate)
-          console.log("date",date)
           const add = await addCheckup(parsedDate);
           
           if (add) {

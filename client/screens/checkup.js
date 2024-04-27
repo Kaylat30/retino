@@ -32,8 +32,21 @@ function EyeScreening() {
       }
     };
 
-    fetchData();
-  }, [tableData.length]);
+    const fetchDataPeriodically = () => {
+      // Fetch data immediately when component mounts
+      fetchData();
+  
+      // Fetch data every 10 seconds
+      const intervalId = setInterval(fetchData, 2000);
+  
+      // Clear interval when component unmounts
+      return () => clearInterval(intervalId);
+    };
+  
+    // Start fetching data periodically when component mounts
+    fetchDataPeriodically();
+  
+  }, []);
 
   const toggleContent = (index) => {
     if (expandedIndex === index) {
@@ -115,8 +128,21 @@ function Checkups() {
       }
     };
 
-    fetchData();
-  }, [tableData.length]);
+    const fetchDataPeriodically = () => {
+      // Fetch data immediately when component mounts
+      fetchData();
+  
+      // Fetch data every 10 seconds
+      const intervalId = setInterval(fetchData, 2000);
+  
+      // Clear interval when component unmounts
+      return () => clearInterval(intervalId);
+    };
+  
+    // Start fetching data periodically when component mounts
+    fetchDataPeriodically();
+  
+  }, []);
 
   const toggleContent = (index) => {
     if (expandedIndex === index) {
@@ -199,8 +225,21 @@ function Appointment() {
 
   useEffect(() => {  
 
-    fetchData();
-  }, [tableData.length]);
+    const fetchDataPeriodically = () => {
+      // Fetch data immediately when component mounts
+      fetchData();
+  
+      // Fetch data every 10 seconds
+      const intervalId = setInterval(fetchData, 2000);
+  
+      // Clear interval when component unmounts
+      return () => clearInterval(intervalId);
+    };
+  
+    // Start fetching data periodically when component mounts
+    fetchDataPeriodically();
+  
+  }, []);
 
   const [isFormVisible, setIsFormVisible] = useState(false);
 
