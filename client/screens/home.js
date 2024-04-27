@@ -47,21 +47,25 @@ export default function Home() {
       }
     };
 
-    const fetchDataPeriodically = () => {
-      // Fetch data immediately when component mounts
-      fetchEyeScreenings();
-      fetchCheckups();
+    // const fetchDataPeriodically = () => {
+    //   // Fetch data immediately when component mounts
+      // fetchEyeScreenings();
+      // fetchCheckups();
   
-      // Fetch data every 10 seconds
-      const intervalId = setInterval(fetchEyeScreenings, 2000);
-      const intervalId1 = setInterval(fetchCheckups, 2000);
+    //   // Fetch data every 10 seconds
+    //   const intervalId = setInterval(fetchEyeScreenings, 10000);
+    //   const intervalId1 = setInterval(fetchCheckups, 10000);
   
-      // Clear interval when component unmounts
-      return () => clearInterval(intervalId,intervalId1);
-    };
+    //   // Clear interval when component unmounts
+    //   return () => clearInterval(intervalId,intervalId1);
+    // };
   
-    // Start fetching data periodically when component mounts
-    fetchDataPeriodically();
+    // // Start fetching data periodically when component mounts
+    // fetchDataPeriodically();
+
+
+    fetchEyeScreenings();
+    fetchCheckups();
 
     
   }, []);
