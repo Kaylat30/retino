@@ -5,12 +5,12 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function Education() {
   const icons = [
-    { name: 'notifications-outline', text: 'General' },
-    { name: 'alarm-outline', text: 'Technology'},
-    { name: 'analytics-outline', text: 'Health'},
-    { name: 'attach-outline', text: 'Education'},
-    { name: 'book-outline', text: 'Finance' },
-    { name: 'camera-outline', text: 'Sports'},
+    { name: 'notifications-outline', text: 'Diabetic Types' },
+    { name: 'alarm-outline', text: 'Management and Treatment.'},
+    { name: 'analytics-outline', text: 'Symptoms and Causes'},
+    { name: 'attach-outline', text: 'Diabetes Complications'},
+    { name: 'book-outline', text: 'Living With' },
+    { name: 'camera-outline', text: 'Diagnosis and Tests'},
     { name: 'chatbubbles-outline', text: 'Food'},
     { name: 'cloud-outline', text: 'Travel'},
     { name: 'earth-outline', text: 'Fashion'},

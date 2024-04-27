@@ -21,11 +21,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.kayondoabdulatif.retino"
     },
     "web": {
       "favicon": "./assets/favicon.png",
       "fastRefresh": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3f4d3531-4409-4df4-bc7b-cab1cceec4dc"
+      }
     }
   }
 }
