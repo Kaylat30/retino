@@ -4,7 +4,6 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import React ,{useState,useEffect}from 'react';
 import { addAppointment, getAllAppointments, getAllCheckups, getAllEyeScreenings, getAllMedicationRecords } from '../api';
 import Toast from 'react-native-toast-message';
-import { registerForPushNotificationsAsync,schedulePushNotification } from '../components/notificationService'
 
 function EyeScreening() {
   const [tableData, setTableData] = useState([]);
@@ -21,7 +20,8 @@ function EyeScreening() {
     const fetchData = async () => {
       try {
         const data = await getAllEyeScreenings();
-        setTableData(data);
+        const allEyeScreeningsExcludingLastOne = data.slice(0, data.length - 1);
+        setTableData(allEyeScreeningsExcludingLastOne);
         
         if (data.length > 0) {
           const lastAppointmentDate = new Date(data[data.length - 1].date);
@@ -33,7 +33,7 @@ function EyeScreening() {
     };
 
     fetchData();
-  }, []);
+  }, [tableData.length]);
 
   const toggleContent = (index) => {
     if (expandedIndex === index) {
@@ -103,7 +103,8 @@ function Checkups() {
     const fetchData = async () => {
       try {
         const data = await getAllCheckups();
-        setTableData(data);
+        const allCheckupsExcludingLastOne = data.slice(0, data.length - 1);
+        setTableData(allCheckupsExcludingLastOne);
       
         if (data.length > 0) {
           const lastAppointmentDate = new Date(data[data.length - 1].date);
@@ -115,7 +116,7 @@ function Checkups() {
     };
 
     fetchData();
-  }, []);
+  }, [tableData.length]);
 
   const toggleContent = (index) => {
     if (expandedIndex === index) {
@@ -185,7 +186,8 @@ function Appointment() {
   const fetchData = async () => {
     try {
       const data = await getAllAppointments();
-      setTableData(data);
+      const allAppointmentsExcludingLastOne = data.slice(0, data.length - 1);
+        setTableData(allAppointmentsExcludingLastOne);
       if (data.length > 0) {
         const lastAppointmentDate = new Date(data[data.length - 1].date);
         setLastDate(lastAppointmentDate);
@@ -198,7 +200,7 @@ function Appointment() {
   useEffect(() => {  
 
     fetchData();
-  }, []);
+  }, [tableData.length]);
 
   const [isFormVisible, setIsFormVisible] = useState(false);
 

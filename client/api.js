@@ -394,7 +394,28 @@ export const deleteAppointment = async (appointmentId) => {
 
 
 // Function to add a new checkup
-export const addCheckup = async (date,clinic,glucose,hemoglobin,urinalysis) => {
+// export const addCheckup = async (date,clinic,glucose,hemoglobin,urinalysis) => {
+//   try {
+//     const response = await fetch(`${url}/addCheckup`, {
+//       method: 'POST',
+//       credentials:'include',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({date:date,clinic:clinic,glucose:glucose,hemoglobin:hemoglobin,urinalysis:urinalysis}),
+//     });
+
+//     if (!response.ok) {
+//       throw new Error('Failed to add checkup');
+//     }
+
+//     return await response.json();
+//   } catch (error) {
+//     console.error('Error adding checkup:', error.message);
+//     throw error;
+//   }
+// };
+export const addCheckup = async (date) => {
   try {
     const response = await fetch(`${url}/addCheckup`, {
       method: 'POST',
@@ -402,7 +423,7 @@ export const addCheckup = async (date,clinic,glucose,hemoglobin,urinalysis) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({date:date,clinic:clinic,glucose:glucose,hemoglobin:hemoglobin,urinalysis:urinalysis}),
+      body: JSON.stringify({date:date}),
     });
 
     if (!response.ok) {
@@ -436,14 +457,34 @@ export const getAllCheckups = async () => {
 };
 
 // Function to update a checkup
-export const updateCheckup = async (date,clinic,id,glucose,hemoglobin,urinalysis) => {
+// export const updateCheckup = async (date,clinic,id,glucose,hemoglobin,urinalysis) => {
+//   try {
+//     const response = await fetch(`${url}/updateCheckup`, {
+//       method: 'PATCH',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({date:date,clinic:clinic,checkupId:id,glucose:glucose,hemoglobin:hemoglobin,urinalysis:urinalysis}),
+//     });
+
+//     if (!response.ok) {
+//       throw new Error('Failed to update checkup');
+//     }
+
+//     return await response.json();
+//   } catch (error) {
+//     console.error('Error updating checkup:', error.message);
+//     throw error;
+//   }
+// };
+export const updateCheckup = async (clinic,id,glucose,hemoglobin,urinalysis) => {
   try {
     const response = await fetch(`${url}/updateCheckup`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({date:date,clinic:clinic,checkupId:id,glucose:glucose,hemoglobin:hemoglobin,urinalysis:urinalysis}),
+      body: JSON.stringify({clinic:clinic,checkupId:id,glucose:glucose,hemoglobin:hemoglobin,urinalysis:urinalysis}),
     });
 
     if (!response.ok) {
@@ -483,7 +524,29 @@ export const deleteCheckup = async (id) => {
 
 
 // Function to add a new eye screening
-export const addEyeScreening = async (date,clinic,visual,intraocular,serum,risk) => {
+// export const addEyeScreening = async (date,clinic,visual,intraocular,serum,risk) => {
+//   try {
+//     const response = await fetch(`${url}/addEyeScreening`, {
+//       method: 'POST',
+//       credentials:'include',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({date:date,clinic:clinic,visual:visual,intraocular:intraocular,serum:serum,risk:risk}),
+//     });
+
+//     if (!response.ok) {
+//       throw new Error('Failed to add eye screening');
+//     }
+
+//     return await response.json();
+//   } catch (error) {
+//     console.error('Error adding eye screening:', error.message);
+//     throw error;
+//   }
+// };
+
+export const addEyeScreening = async (date) => {
   try {
     const response = await fetch(`${url}/addEyeScreening`, {
       method: 'POST',
@@ -491,7 +554,7 @@ export const addEyeScreening = async (date,clinic,visual,intraocular,serum,risk)
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({date:date,clinic:clinic,visual:visual,intraocular:intraocular,serum:serum,risk:risk}),
+      body: JSON.stringify({date:date}),
     });
 
     if (!response.ok) {
@@ -525,14 +588,14 @@ export const getAllEyeScreenings = async () => {
 };
 
 // Function to update an eye screening
-export const updateEyeScreening = async (id,date,clinic,risk,visual,intraocular,serum) => {
+export const updateEyeScreening = async (id,clinic,risk,visual,intraocular,serum) => {
   try {
     const response = await fetch(`${url}/updateEyeScreening`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({EyeScreeningId:id,date:date,clinic:clinic,visual:visual,intraocular:intraocular,serum:serum,risk:risk}),
+      body: JSON.stringify({EyeScreeningId:id,clinic:clinic,visual:visual,intraocular:intraocular,serum:serum,risk:risk}),
     });
 
     if (!response.ok) {

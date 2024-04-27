@@ -3,35 +3,6 @@ import User from "../models/User.js"
 import passport from "passport"
 
 //register user
-// export const register = async (req,res) =>
-// {
-//     try
-//     {
-//         const { 
-//             firstname,
-//             lastname,
-//             email,
-//             password
-//         } = req.body
-
-//         const salt = await bcrypt.genSalt();
-//         const passwordHash = await bcrypt.hash(password,salt) // encrypting password
-
-//         const newUser = new User({
-//             firstname,
-//             lastname,
-//             email,
-//             password: passwordHash // we store the encypted password when new user registers
-//         })
-
-//         const savedUser = await newUser.save()
-//         res.status(201).json(savedUser) // we're sending saved user back for fronted devs to use
-//     }catch(err)
-//     {
-//         res.status(500).json({error: err.message})
-//     }
-// }
-
 export const register = async (req, res) => {
   try {
       const { 

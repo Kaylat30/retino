@@ -1,10 +1,21 @@
 import Checkup from '../models/Checkup.js'
 
 // Add new checkup
+// export const addCheckup = async (req, res) => {
+//     try {
+//         const {date,clinic,glucose,hemoglobin,urinalysis} = req.body
+//         const checkup = new Checkup({date,clinic,user:req.user._id,glucose,hemoglobin,urinalysis});
+//         const savedCheckup = await checkup.save();
+//         res.status(201).json({ message: 'Checkup added successfully' ,Checkup: savedCheckup});
+//     } catch (error) {
+//         res.status(500).json({ success: false,error: error.message });
+//     }
+// };
+
 export const addCheckup = async (req, res) => {
     try {
-        const {date,clinic,glucose,hemoglobin,urinalysis} = req.body
-        const checkup = new Checkup({date,clinic,user:req.user._id,glucose,hemoglobin,urinalysis});
+        const {date} = req.body
+        const checkup = new Checkup({date,user:req.user._id});
         const savedCheckup = await checkup.save();
         res.status(201).json({ message: 'Checkup added successfully' ,Checkup: savedCheckup});
     } catch (error) {
@@ -25,9 +36,9 @@ export const getCheckups = async (req, res) => {
 // Update checkup
 export const updateCheckup = async (req, res) => {
     try {
-        const {date,clinic,checkupId,glucose,hemoglobin,urinalysis} = req.body
+        const {clinic,checkupId,glucose,hemoglobin,urinalysis} = req.body
         const updatedCheckup = await Checkup.findByIdAndUpdate(checkupId, 
-            {date: date, clinic: clinic,glucose:glucose,hemoglobin:hemoglobin,urinalysis:urinalysis},
+            {$set: {clinic: clinic,glucose:glucose,hemoglobin:hemoglobin,urinalysis:urinalysis}},
             {new: true});
         res.status(200).json({ message: 'Checkup updated successfully',Checkup: updatedCheckup});
     } catch (error) {

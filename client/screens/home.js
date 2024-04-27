@@ -46,7 +46,7 @@ export default function Home() {
 
     fetchEyeScreenings();
     fetchCheckups();
-  }, []);
+  }, [eyeScreenings.length, checkups.length]);
 
   const eyeScreeningsData = eyeScreenings.map(item => ({
     date: new Date(item.date),

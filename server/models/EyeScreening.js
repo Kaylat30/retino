@@ -3,11 +3,9 @@ import mongoose from "mongoose";
 const eyeScreeningSchema = new mongoose.Schema({
     date: {
         type: Date,
-        required: true
     },
     clinic: {
         type: String,
-        required: true
     },
     user: {
         type: String,
@@ -15,19 +13,15 @@ const eyeScreeningSchema = new mongoose.Schema({
     },
     risk: {
         type: Number,
-        required: true
     },
     visual: {
         type: Number,
-        required: true
     },
     intraocular: {
         type: Number,
-        required: true
     },
     serum: {
         type: Number,
-        required: true
     },
 },{ timestamps: true });
 

@@ -81,14 +81,16 @@ export const TopTabNavigator = () => {
 
   const handleSignOut = async () => {
     try {
-      const user = await logoutUser();
-      if (user) {
-        Toast.show({
-          type: 'success',
-          text1: 'Logout Successful',
-        });
-        navigation.navigate('Login') ;
-        }      
+      // const user = await logoutUser();
+      await logoutUser();
+      navigation.navigate("Login") ;
+      // if (user) {
+      //   Toast.show({
+      //     type: 'success',
+      //     text1: 'Logout Successful',
+      //   });
+      //   navigation.navigate('"Login"') ;
+      //   }      
       
     } catch (error) {
       // Handle signup error

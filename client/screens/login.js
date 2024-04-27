@@ -18,6 +18,8 @@ const Login = () => {
           text1: 'Login Successful',
         });
         navigation.navigate('Layout', { firstName: user.firstName }) ;
+        setPassword('')
+        setemail('')
         }      
       
     } catch (error) {

@@ -28,11 +28,11 @@ import Toast from 'react-native-toast-message';
             
           }}
           >
-          <Stack.Screen
+          {/* <Stack.Screen
             name="Splash"
             component={CustomSplashScreen}
             options={{ headerShown: false,duration:2 }}
-          />
+          /> */}
           <Stack.Screen
             name="Login"
             component={Login}

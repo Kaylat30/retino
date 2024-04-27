@@ -4,7 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import { RadioButton} from 'react-native-paper';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { FontAwesome } from '@expo/vector-icons';
-import { addNutritionRecord,getAllNutritionRecords ,deleteNutritionRecord,addMedication, addCheckup, addAppointment, addEyeScreening, updateAppointment,getAllAppointments} from '../api';
+import { addNutritionRecord,getAllNutritionRecords ,deleteNutritionRecord,addMedication, addCheckup, addAppointment, addEyeScreening, updateAppointment,getAllAppointments, getAllEyeScreenings, getAllCheckups, updateEyeScreening, updateCheckup} from '../api';
 import Toast from 'react-native-toast-message';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -27,6 +27,8 @@ export default function Add() {
     const [notificationsEnabled, setNotificationsEnabled] = useState(false);
     const [selectedGender, setSelectedGender] = useState('');
     const [appointments, setAppointments] = useState([]);
+    const [eyescreening, setEyescreening] = useState([]);
+    const [checkups, setCheckups] = useState([]);
 
     useEffect(() => {
       const fetchAppointments = async () => {
@@ -38,8 +40,28 @@ export default function Add() {
           ToastAndroid.show(`Error fetching appointments: ${error.message}`, ToastAndroid.SHORT);
         }
       };
+      const fetchEyescreening = async () => {
+        try {
+          const eyescreeningData = await getAllEyeScreenings();
+          setEyescreening(eyescreeningData);
+        } catch (error) {
+          console.error('Error fetching eyescreenins:', error.message);
+          ToastAndroid.show(`Error fetching eyescreenins: ${error.message}`, ToastAndroid.SHORT);
+        }
+      };
+      const fetchCheckups = async () => {
+        try {
+          const checkupsData = await getAllCheckups();
+          setCheckups(checkupsData);
+        } catch (error) {
+          console.error('Error fetching checkups:', error.message);
+          ToastAndroid.show(`Error fetching checkups: ${error.message}`, ToastAndroid.SHORT);
+        }
+      };
 
       fetchAppointments();
+      fetchCheckups()
+      fetchEyescreening()
     }, []);
   
     const handleSave = async () => {
@@ -49,6 +71,36 @@ export default function Add() {
     
         // Create a new Date object using the components
         const parsedDate = new Date(year, month - 1, day); 
+        // if (cat === "appointment") {
+        //   let id = appointments[appointments.length - 1]._id;
+        //   const response = await updateAppointment(id,result);
+        //   if (response) {
+        //     Toast.show({
+        //       type: 'success',
+        //       text1: 'Appointment details added successfully',
+        //     });
+        //   }
+        // } else if (cat === "checkup") {
+        //   const response = await addCheckup(parsedDate, clinic, glucose, hemoglobin, urinalysis);
+        //   if (response) {
+        //     Toast.show({
+        //       type: 'success',
+        //       text1: 'Checkup details added successfully',
+        //     });
+        //   }
+        // } else if (cat === "eyescreening") {
+        //   let id = eyescreening[eyescreening.length - 1]._id;
+        //   // const response = await addEyeScreening(parsedDate, clinic, visual, intraocular, serum, risk);
+        //   const update = await updateEyeScreening(id,clinic, visual, intraocular, serum, risk);
+        //   const add = await addEyeScreening(parsedDate);
+          
+        //   if (add && update) {
+        //     Toast.show({
+        //       type: 'success',
+        //       text1: 'Eyescreening details added successfully',
+        //     });
+        //   }
+        // }
         if (cat === "appointment") {
           let id = appointments[appointments.length - 1]._id;
           const response = await updateAppointment(id,result);
@@ -59,22 +111,49 @@ export default function Add() {
             });
           }
         } else if (cat === "checkup") {
-          const response = await addCheckup(parsedDate, clinic, glucose, hemoglobin, urinalysis);
-          if (response) {
+          if (checkups.length > 0) {
+            let id = checkups[checkups.length - 1]._id;
+            const update = await updateCheckup(clinic,id,glucose,hemoglobin,urinalysis);
+            if (!update) {
+              // Handle update failure
+              return; // Exit function or show error message
+            }
+          }
+        
+          console.log("Parseddate",parsedDate)
+          console.log("date",date)
+          const add = await addCheckup(parsedDate);
+          
+          if (add) {
             Toast.show({
               type: 'success',
               text1: 'Checkup details added successfully',
             });
+          } else {
+            // Handle add failure
           }
-        } else if (cat === "eyescreening") {
-          const response = await addEyeScreening(parsedDate, clinic, visual, intraocular, serum, risk);
-          if (response) {
+        }
+         else if (cat === "eyescreening") {
+          if (eyescreening.length > 0) {
+            let id = eyescreening[eyescreening.length - 1]._id;
+            const update = await updateEyeScreening(id, clinic, visual, intraocular, serum, risk);
+            if (!update) {
+              // Handle update failure
+              return; // Exit function or show error message
+            }
+          }
+        
+          const add = await addEyeScreening(parsedDate);
+          if (add) {
             Toast.show({
               type: 'success',
               text1: 'Eyescreening details added successfully',
             });
+          } else {
+            // Handle add failure
           }
         }
+        
 
 
         // Clear the text fields after successful save
