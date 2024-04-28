@@ -47,23 +47,6 @@ export default function Home() {
       }
     };
 
-    // const fetchDataPeriodically = () => {
-    //   // Fetch data immediately when component mounts
-      // fetchEyeScreenings();
-      // fetchCheckups();
-  
-    //   // Fetch data every 10 seconds
-    //   const intervalId = setInterval(fetchEyeScreenings, 10000);
-    //   const intervalId1 = setInterval(fetchCheckups, 10000);
-  
-    //   // Clear interval when component unmounts
-    //   return () => clearInterval(intervalId,intervalId1);
-    // };
-  
-    // // Start fetching data periodically when component mounts
-    // fetchDataPeriodically();
-
-
     fetchEyeScreenings();
     fetchCheckups();
 
@@ -300,7 +283,7 @@ export default function Home() {
         <Text style={{ fontSize: 18, marginBottom: 10 }}>Contribution Graph</Text>
         <ContributionGraph
           values={generateContributionGraphData()}
-          endDate={new Date("2024-4-13")}
+          endDate={new Date()}
           numDays={105}
           width={300}
           height={200}

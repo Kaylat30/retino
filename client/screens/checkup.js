@@ -5,6 +5,7 @@ import React ,{useState,useEffect}from 'react';
 import { addAppointment, getAllAppointments, getAllCheckups, getAllEyeScreenings, getAllMedicationRecords } from '../api';
 import Toast from 'react-native-toast-message';
 
+
 function EyeScreening() {
   const [tableData, setTableData] = useState([]);
   const [expandedIndex, setExpandedIndex] = useState(-1);
@@ -17,6 +18,7 @@ function EyeScreening() {
   const dateString = lastDate.toLocaleDateString('en-US', dateOptions);
 
   useEffect(() => {
+    let intervalId;
     const fetchData = async () => {
       try {
         const data = await getAllEyeScreenings();
@@ -31,20 +33,7 @@ function EyeScreening() {
         console.error('Error fetching eye screenings:', error.message);
       }
     };
-
-    const fetchDataPeriodically = () => {
-      // Fetch data immediately when component mounts
-      fetchData();
-  
-      // Fetch data every 10 seconds
-      const intervalId = setInterval(fetchData, 2000);
-  
-      // Clear interval when component unmounts
-      return () => clearInterval(intervalId);
-    };
-  
-    // Start fetching data periodically when component mounts
-    fetchDataPeriodically();
+    fetchData();
   
   }, []);
 
@@ -128,19 +117,8 @@ function Checkups() {
       }
     };
 
-    const fetchDataPeriodically = () => {
-      // Fetch data immediately when component mounts
-      fetchData();
-  
-      // Fetch data every 10 seconds
-      const intervalId = setInterval(fetchData, 2000);
-  
-      // Clear interval when component unmounts
-      return () => clearInterval(intervalId);
-    };
-  
-    // Start fetching data periodically when component mounts
-    fetchDataPeriodically();
+    fetchData();
+
   
   }, []);
 
@@ -181,9 +159,6 @@ function Checkups() {
           </View>
           {expandedIndex === index + 1 && (
             <View style={{ marginTop: 10 }}>
-              {/* {rowData.results.map((result, resultIndex) => (
-                <Text key={resultIndex}>{result}</Text>
-              ))} */}
               <Text>Clinic: {rowData.clinic}</Text>
               <Text>Glucose: {rowData.glucose}</Text>
               <Text>Hemoglobin: {rowData.hemoglobin}</Text>
@@ -209,35 +184,24 @@ function Appointment() {
   const weekdayString = lastDate.toLocaleDateString('en-US', weekdayOptions);
   const dateString = lastDate.toLocaleDateString('en-US', dateOptions);
 
-  const fetchData = async () => {
-    try {
-      const data = await getAllAppointments();
-      const allAppointmentsExcludingLastOne = data.slice(0, data.length - 1);
-        setTableData(allAppointmentsExcludingLastOne);
-      if (data.length > 0) {
-        const lastAppointmentDate = new Date(data[data.length - 1].date);
-        setLastDate(lastAppointmentDate);
-      }
-    } catch (error) {
-      console.error('Error fetching appointments:', error.message);
-    }
-  };
-
+  
   useEffect(() => {  
-
-    const fetchDataPeriodically = () => {
-      // Fetch data immediately when component mounts
-      fetchData();
-  
-      // Fetch data every 10 seconds
-      const intervalId = setInterval(fetchData, 2000);
-  
-      // Clear interval when component unmounts
-      return () => clearInterval(intervalId);
+    const fetchData = async () => {
+      try {
+        const data = await getAllAppointments();
+        const allAppointmentsExcludingLastOne = data.slice(0, data.length - 1);
+          setTableData(allAppointmentsExcludingLastOne);
+        if (data.length > 0) {
+          const lastAppointmentDate = new Date(data[data.length - 1].date);
+          setLastDate(lastAppointmentDate);
+        }
+      } catch (error) {
+        console.error('Error fetching appointments:', error.message);
+      }
     };
   
-    // Start fetching data periodically when component mounts
-    fetchDataPeriodically();
+    fetchData();
+    
   
   }, []);
 
@@ -416,11 +380,21 @@ function Appointment() {
 const Tab = createMaterialTopTabNavigator();
 
 export default function Checkup() {
+
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Eye screening" component={EyeScreening} />
-      <Tab.Screen name="Checkups" component={Checkups} />
-      <Tab.Screen name="Appointment" component={Appointment} />
+      <Tab.Screen
+        name="Eye screening"
+        component={EyeScreening}
+      />
+      <Tab.Screen
+        name="Checkups"
+        component={Checkups}
+      />
+      <Tab.Screen
+        name="Appointment"
+        component={Appointment}
+      />
     </Tab.Navigator>
   );
 }

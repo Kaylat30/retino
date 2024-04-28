@@ -8,8 +8,8 @@ import { FlatList, ScrollView } from 'react-native-gesture-handler';
 // Component for general information paragraph
 const GeneralInfo = () => {
   return (
-    <ScrollView style={{ flex: 1 }}>
-      <Text style={{ fontSize: 20,fon }}>Types of Diabetics</Text>
+    <ScrollView style={{ flex: 1 ,padding:20}}>
+      <Text style={{ fontSize: 20, }}>Types of Diabetics</Text>
       <Text style={{ fontSize: 20 }}>What is diabetes?</Text>
       <Text style={{ fontSize: 20 }}>
       Diabetes is a condition that happens when your blood sugar (glucose) is too high. It develops when your pancreas doesn’t make enough insulin or any at all, or when your body isn’t responding to the effects of insulin properly. Diabetes affects people of all ages. Most forms of diabetes are chronic (lifelong), and all forms are manageable with medications and/or lifestyle changes.
@@ -55,8 +55,6 @@ const GeneralInfo = () => {
             );
           }}
         />
-      <Text></Text>
-      <Text></Text>
     </ScrollView>
   );
 };
@@ -64,7 +62,7 @@ const GeneralInfo = () => {
 // Component for technology information paragraph
 const TechnologyInfo = () => {
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1 ,padding:20}}>
       <Text style={{ fontSize: 20 }}>Management and Treatment.</Text>
       <Text style={{ fontSize: 20 }}>How is diabetes managed?</Text>
       <Text style={{ fontSize: 20 }}>Diabetes is a complex condition, so its management involves several strategies. In addition, diabetes affects everyone differently, so management plans are highly individualized.</Text>
@@ -108,7 +106,7 @@ const TechnologyInfo = () => {
 // Component for health information paragraph
 const HealthInfo = () => {
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1 ,padding:20 }}>
       <View >
       <Text style={{ fontSize: 20 }}>Symptoms and Causes</Text>
       <Text style={{ fontSize: 20 }}>What are the symptoms of diabetes?</Text>
@@ -176,7 +174,7 @@ const HealthInfo = () => {
 // Component for education information paragraph
 const EducationInfo = () => {
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1 ,padding:20 }}>
       <Text style={{ fontSize: 20 }}>Diabetes can lead to acute (sudden and severe) and long-term complications — mainly due to extreme or prolonged high blood sugar levels.</Text>
       <Text style={{ fontSize: 20 }}>Acute diabetes complications
       Acute diabetes complications that can be life-threatening include:
@@ -226,7 +224,7 @@ const EducationInfo = () => {
 // Component for finance information paragraph
 const FinanceInfo = () => {
   return (
-    <View>
+    <View style={{padding:20}}>
       <Text style={{ fontSize: 20 }}>This is the sports information paragraph.</Text>
       <Text style={{ fontSize: 20 }}>If you haven’t been diagnosed with diabetes, you should see a healthcare provider if you have any symptoms of diabetes, such as increased thirst and frequent urination.</Text>
       <Text style={{ fontSize: 20 }}>If you have diabetes, you should see your provider who helps you manage diabetes (such as an endocrinologist) regularly.</Text>
@@ -240,7 +238,7 @@ const FinanceInfo = () => {
 // Component for sports information paragraph
 const SportsInfo = () => {
   return (
-    <View>
+    <View style={{padding:20}}>
       <Text style={{ fontSize: 20 }}>How is diabetes diagnosed?</Text>
       <Text style={{ fontSize: 20 }}>Healthcare providers diagnose diabetes by checking your glucose level in a blood test. Three tests can measure your blood glucose level:</Text>
       <FlatList
@@ -265,9 +263,31 @@ const SportsInfo = () => {
 // Component for food information paragraph
 const FoodInfo = () => {
   return (
-    <View>
-      <Text>This is the food information paragraph.</Text>
-    </View>
+    <ScrollView style={{ flex: 1 ,padding:20}}>
+      <Text style={{ fontSize: 20 }}>How can I prevent diabetes??</Text>
+      <Text style={{ fontSize: 20 }}>You can’t prevent autoimmune and genetic forms of diabetes. But there are some steps you can take to lower your risk for developing prediabetes, Type 2 diabetes and gestational diabetes, including:</Text>
+
+      <FlatList
+          data={[
+            { key: 'Eat a healthy diet, such as the Mediterranean diet.' },
+            { key: 'Get physically active. Aim for 30 minutes a day at least five days a week.' },
+            { key: 'Work to achieve a weight that’s healthy for you.' },
+            { key: 'Manage your stress.' },
+            { key: 'Limit alcohol intake.' },
+            { key: 'Get adequate sleep (typically 7 to 9 hours) and seek treatment for sleep disorders.' },
+            { key: 'Quit smoking' },
+            { key: 'Take medications as directed by your healthcare provider to manage existing risk factors for heart disease.' },
+          ]}
+          renderItem={({ item }) => {
+            return (
+              <View style={{ marginBottom: 10 }}>
+                <Text style={{ fontSize: 20 }}>{`\u2022 ${item.key}`}</Text>
+              </View>
+            );
+          }}
+        />
+        <Text style={{ fontSize: 20 }}>It’s important to note that there are some diabetes risk factors you can’t change, such as your genetics/family history, age and race. Know that Type 2 diabetes is a complex condition that involves many contributing factors.</Text>
+    </ScrollView>
   );
 };
 
@@ -321,7 +341,7 @@ export default function EducInfo({ route }) {
         return <FinanceInfo />;
       case 'Diagnosis and Tests':
         return <SportsInfo />;
-      case 'Food':
+      case 'Prevetion':
         return <FoodInfo />;
       case 'Travel':
         return <TravelInfo />;
@@ -336,7 +356,7 @@ export default function EducInfo({ route }) {
 
   return (
     <View style={{ flex: 1 }}>
-      <TouchableOpacity style={{marginBottom:10}} onPress={handleGoBack}>
+      <TouchableOpacity style={{margin:20}} onPress={handleGoBack}>
         <Ionicons name="arrow-back" size={24} color="black" />
       </TouchableOpacity>
       {renderParagraph()}
