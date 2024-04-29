@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, ScrollView } from 'react-native';
+import { View, Text, Image, ScrollView,ActivityIndicator } from 'react-native';
 import { LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, StackedBarChart } from 'react-native-chart-kit';
 import { getAllEyeScreenings, getAllCheckups } from '../api';
 
@@ -18,8 +18,10 @@ const FoodCat = ({ name, ImageUri, calories }) => {
 };
 
 export default function Home() {
+
   const [eyeScreenings, setEyeScreenings] = useState([]);
   const [checkups, setCheckups] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Fetch eye screenings data
@@ -41,7 +43,7 @@ export default function Home() {
         const lastEightData = data.slice(-9);
         const allEightDataExcludingLastOne = lastEightData.slice(0, lastEightData.length - 1);        
         setCheckups(allEightDataExcludingLastOne);
-        
+        setLoading(false); // Set loading to false after fetching checkups
       } catch (error) {
         console.error('Error fetching checkups:', error.message);
       }
@@ -52,6 +54,15 @@ export default function Home() {
 
     
   }, []);
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <ActivityIndicator size="large" color="blue" />
+      </View>
+    );
+  }
+
 
   const eyeScreeningsData = eyeScreenings.map(item => ({
     date: new Date(item.date),
@@ -68,10 +79,10 @@ export default function Home() {
     glucose: item.glucose
   }));
 
-
   // Calculate the average of the last 5 glucose levels
   const last5GlucoseLevels = checkupsData.slice(-5).map(item => item.glucose);
   const averageGlucose = last5GlucoseLevels.reduce((acc, curr) => acc + curr, 0) / last5GlucoseLevels.length;
+
 
   // Function to recommend nutrition based on glucose levels
   const recommendNutrition = (glucoseLevel) => {
